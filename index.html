@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pathan Abrar Khan — AI Developer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            neon: { cyan: '#00f0ff', purple: '#a855f7', green: '#00ff88', pink: '#f472b6' },
+            dark: { 50: '#18181b', 100: '#111113', 200: '#0c0c0e', 300: '#08080a', 400: '#050507', 500: '#000000' }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root { --neon-cyan: #00f0ff; --neon-purple: #a855f7; --neon-green: #00ff88; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+    ::selection { background: rgba(0,240,255,0.2); color: #fff; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: rgba(0,240,255,0.3); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0,240,255,0.5); }
+
+    #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+    .glass { background: rgba(255,255,255,0.025); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.06); }
+    .glass-strong { background: rgba(255,255,255,0.04); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border: 1px solid rgba(255,255,255,0.08); }
+
+    .text-gradient { background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .text-gradient-alt { background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .bg-gradient-neon { background: linear-gradient(135deg, rgba(0,240,255,0.15), rgba(168,85,247,0.15)); }
+    .border-gradient { border-image: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)) 1; }
+
+    #navbar { transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+    #navbar.scrolled { background: rgba(0,0,0,0.85); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+    .reveal { opacity: 0; transform: translateY(35px); transition: all 0.9s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-40px); transition: all 0.9s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-left.active { opacity: 1; transform: translateX(0); }
+    .reveal-scale { opacity: 0; transform: scale(0.92); transition: all 0.9s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-scale.active { opacity: 1; transform: scale(1); }
+
+    .typing-cursor { display: inline-block; width: 3px; height: 1.1em; background: var(--neon-cyan); margin-left: 3px; animation: blink 1s step-end infinite; vertical-align: text-bottom; }
+    @keyframes blink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
+
+    .project-card { transition: all 0.5s cubic-bezier(0.16,1,0.3,1); }
+    .project-card:hover { border-color: rgba(0,240,255,0.35); box-shadow: 0 0 50px rgba(0,240,255,0.07), 0 25px 70px rgba(0,0,0,0.5); transform: translateY(-8px); }
+    .project-card:hover .project-img { transform: scale(1.05); }
+    .project-img { transition: transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+
+    .skill-tag { transition: all 0.3s ease; }
+    .skill-tag:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,240,255,0.15); }
+
+    .skill-fill { width: 0; transition: width 1.5s cubic-bezier(0.16,1,0.3,1); }
+
+    .timeline-line { background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-purple), transparent); }
+    .timeline-dot { box-shadow: 0 0 12px rgba(0,240,255,0.4); }
+
+    .chat-message { animation: chatIn 0.4s cubic-bezier(0.16,1,0.3,1); }
+    @keyframes chatIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+    .typing-dots span { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--neon-cyan); animation: dotBounce 1.4s infinite; }
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes dotBounce { 0%,60%,100%{transform:translateY(0);opacity:0.4} 30%{transform:translateY(-8px);opacity:1} }
+
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
+    @keyframes pulseRing { 0%{transform:scale(1);opacity:0.4} 100%{transform:scale(1.8);opacity:0} }
+
+    .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+
+    .btn-primary { position: relative; overflow: hidden; transition: all 0.4s ease; }
+    .btn-primary::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(0,240,255,0.2),rgba(168,85,247,0.2)); opacity:0; transition:opacity 0.4s ease; }
+    .btn-primary:hover::before { opacity:1; }
+    .btn-primary:hover { box-shadow: 0 0 30px rgba(0,240,255,0.2), 0 0 60px rgba(0,240,255,0.05); transform: translateY(-2px); }
+
+    .btn-outline { transition: all 0.4s ease; }
+    .btn-outline:hover { border-color: rgba(0,240,255,0.5); background: rgba(0,240,255,0.05); transform: translateY(-2px); }
+
+    .cert-card { transition: all 0.4s ease; }
+    .cert-card:hover { border-color: rgba(168,85,247,0.4); transform: translateY(-4px); box-shadow: 0 0 30px rgba(168,85,247,0.08); }
+
+    .nav-link { position: relative; transition: color 0.3s ease; }
+    .nav-link::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:var(--neon-cyan); transition:width 0.3s ease; border-radius:1px; }
+    .nav-link:hover::after, .nav-link.active::after { width:100%; }
+    .nav-link:hover, .nav-link.active { color: var(--neon-cyan); }
+
+    .mobile-menu { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); }
+    .mobile-menu.open { transform: translateX(0); }
+
+    .input-field { transition: all 0.3s ease; }
+    .input-field:focus { border-color: rgba(0,240,255,0.4); box-shadow: 0 0 20px rgba(0,240,255,0.08); }
+
+    @media (max-width: 768px) {
+      .hero-name { font-size: 2.5rem !important; line-height: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Three.js Canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Decorative Glow Orbs -->
+  <div class="glow-orb w-[600px] h-[600px] bg-cyan-500/5 top-[-200px] left-[-200px] fixed z-[1]"></div>
+  <div class="glow-orb w-[500px] h-[500px] bg-purple-500/5 bottom-[-150px] right-[-150px] fixed z-[1]"></div>
+
+  <!-- Navigation -->
+  <nav id="navbar" class="fixed top-0 left-0 w-full z-50 px-4 md:px-8 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <a href="#hero" class="text-xl font-bold tracking-tight">
+        <span class="text-gradient">AK</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#about" class="nav-link text-sm font-medium text-zinc-400">About</a>
+        <a href="#skills" class="nav-link text-sm font-medium text-zinc-400">Skills</a>
+        <a href="#projects" class="nav-link text-sm font-medium text-zinc-400">Projects</a>
+        <a href="#experience" class="nav-link text-sm font-medium text-zinc-400">Experience</a>
+        <a href="#ai-assistant" class="nav-link text-sm font-medium text-zinc-400">AI Chat</a>
+        <a href="#contact" class="nav-link text-sm font-medium text-zinc-400">Contact</a>
+      </div>
+      <div class="hidden md:flex items-center gap-3">
+        <a href="https://github.com/" target="_blank" class="btn-outline w-10 h-10 rounded-xl glass flex items-center justify-center text-zinc-400 hover:text-neon-cyan">
+          <span class="iconify" data-icon="mdi:github" data-width="20"></span>
+        </a>
+        <a href="https://linkedin.com/" target="_blank" class="btn-outline w-10 h-10 rounded-xl glass flex items-center justify-center text-zinc-400 hover:text-neon-cyan">
+          <span class="iconify" data-icon="mdi:linkedin" data-width="20"></span>
+        </a>
+        <button onclick="showToast('📄 Resume download started!')" class="btn-primary px-5 py-2.5 rounded-xl glass text-sm font-medium text-white flex items-center gap-2">
+          <span class="iconify" data-icon="mdi:download" data-width="16"></span>
+          Resume
+        </button>
+      </div>
+      <button id="menu-toggle" class="md:hidden w-10 h-10 rounded-xl glass flex items-center justify-center text-zinc-400">
+        <span class="iconify" data-icon="mdi:menu" data-width="22" id="menu-icon"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="mobile-menu fixed inset-0 z-[60] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8">
+    <button id="menu-close" class="absolute top-5 right-5 w-10 h-10 rounded-xl glass flex items-center justify-center text-zinc-400">
+      <span class="iconify" data-icon="mdi:close" data-width="22"></span>
+    </button>
+    <a href="#about" class="mobile-link text-2xl font-semibold text-zinc-300 hover:text-neon-cyan transition-colors">About</a>
+    <a href="#skills" class="mobile-link text-2xl font-semibold text-zinc-300 hover:text-neon-cyan transition-colors">Skills</a>
+    <a href="#projects" class="mobile-link text-2xl font-semibold text-zinc-300 hover:text-neon-cyan transition-colors">Projects</a>
+    <a href="#experience" class="mobile-link text-2xl font-semibold text-zinc-300 hover:text-neon-cyan transition-colors">Experience</a>
+    <a href="#ai-assistant" class="mobile-link text-2xl font-semibold text-zinc-300 hover:text-neon-cyan transition-colors">AI Chat</a>
+    <a href="#contact" class="mobile-link text-2xl font-semibold text-zinc-300 hover:text-neon-cyan transition-colors">Contact</a>
+    <div class="flex gap-4 mt-4">
+      <a href="https://github.com/" target="_blank" class="w-12 h-12 rounded-xl glass flex items-center justify-center text-zinc-400 hover:text-neon-cyan transition-colors">
+        <span class="iconify" data-icon="mdi:github" data-width="24"></span>
+      </a>
+      <a href="https://linkedin.com/" target="_blank" class="w-12 h-12 rounded-xl glass flex items-center justify-center text-zinc-400 hover:text-neon-cyan transition-colors">
+        <span class="iconify" data-icon="mdi:linkedin" data-width="24"></span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="relative z-10">
+
+    <!-- ===== HERO ===== -->
+    <section id="hero" class="min-h-screen flex flex-col items-center justify-center px-4 relative">
+      <div class="text-center max-w-5xl mx-auto">
+        <div class="reveal" style="transition-delay:0ms">
+          <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-xs font-medium text-neon-cyan mb-8">
+            <span class="w-2 h-2 rounded-full bg-neon-green animate-pulse"></span>
+            Available for opportunities
+          </span>
+        </div>
+        <h1 class="reveal hero-name text-5xl md:text-7xl lg:text-[6.5rem] font-black tracking-tighter leading-[0.9] mb-6" style="transition-delay:100ms">
+          <span class="block text-white">PATHAN</span>
+          <span class="block text-gradient">ABRAR KHAN</span>
+        </h1>
+        <div class="reveal h-8 mb-10" style="transition-delay:200ms">
+          <span class="text-lg md:text-xl font-light text-zinc-400">
+            <span id="typed-text"></span><span class="typing-cursor"></span>
+          </span>
+        </div>
+        <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-4" style="transition-delay:300ms">
+          <a href="#projects" class="btn-primary px-8 py-3.5 rounded-2xl bg-gradient-to-r from-neon-cyan/20 to-neon-purple/20 border border-neon-cyan/30 text-sm font-semibold text-white flex items-center gap-2">
+            View Projects
+            <span class="iconify" data-icon="mdi:arrow-down" data-width="18"></span>
+          </a>
+          <button onclick="showToast('📄 Resume download started!')" class="btn-outline px-8 py-3.5 rounded-2xl glass text-sm font-semibold text-zinc-300 flex items-center gap-2">
+            <span class="iconify" data-icon="mdi:download-outline" data-width="18"></span>
+            Download Resume
+          </button>
+        </div>
+      </div>
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <span class="iconify text-zinc-600" data-icon="mdi:chevron-down" data-width="28"></span>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about" class="py-24 md:py-36 px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-5 gap-12 md:gap-16 items-center">
+          <div class="md:col-span-2 reveal-left" style="transition-delay:0ms">
+            <div class="relative">
+              <div class="w-64 h-64 md:w-72 md:h-72 mx-auto rounded-3xl overflow-hidden glass p-1">
+                <img src="./images/AKImage.jpeg" alt="Pathan Abrar Khan" class="w-full h-full object-cover rounded-2xl" />
+              </div>
+              <div class="absolute -bottom-4 -right-4 w-24 h-24 rounded-2xl glass-strong flex items-center justify-center" style="animation:float 4s ease-in-out infinite">
+                <div class="text-center">
+                  <div class="text-2xl font-bold text-gradient">B.Tech CSE Graduate</div>
+                  <div class="text-[10px] text-zinc-500 uppercase tracking-wider">Year 2026</div>
+                </div>
+              </div>
+              <div class="absolute -top-3 -left-3 w-16 h-16 rounded-xl glass-strong flex items-center justify-center" style="animation:float 5s ease-in-out infinite 1s">
+                <span class="iconify text-neon-cyan" data-icon="mdi:brain" data-width="28"></span>
+              </div>
+            </div>
+          </div>
+          <div class="md:col-span-3">
+            <div class="reveal" style="transition-delay:100ms">
+              <span class="text-xs font-semibold uppercase tracking-widest text-neon-cyan/70 mb-4 block">About Me</span>
+            </div>
+            <h2 class="reveal text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-6" style="transition-delay:150ms">
+              Building <span class="text-gradient">Intelligent Systems</span> That Matter
+            </h2>
+            <p class="reveal text-zinc-400 text-base md:text-lg leading-relaxed mb-6" style="transition-delay:200ms">
+              I'm Pathan Abrar Khan — an AI Developer and Machine Learning Engineer passionate about crafting intelligent systems that solve real-world problems. From voice-activated assistants to computer vision solutions, I transform complex AI research into production-ready applications.
+            </p>
+            <p class="reveal text-zinc-500 text-sm md:text-base leading-relaxed mb-8" style="transition-delay:250ms">
+              With expertise spanning deep learning, computer vision, and NLP, I specialize in building end-to-end AI pipelines — from data preprocessing and model training to deployment and optimization. Currently focused on pushing the boundaries of what's possible with generative AI and multi-modal systems.
+            </p>
+            <div class="reveal flex flex-wrap gap-3" style="transition-delay:300ms">
+              <div class="flex items-center gap-2 px-4 py-2 rounded-xl glass text-sm text-zinc-300">
+                <span class="iconify text-neon-cyan" data-icon="mdi:map-marker" data-width="16"></span>
+                India
+              </div>
+              <div class="flex items-center gap-2 px-4 py-2 rounded-xl glass text-sm text-zinc-300">
+                <span class="iconify text-neon-purple" data-icon="mdi:school" data-width="16"></span>
+                B.Tech CSE
+              </div>
+              <div class="flex items-center gap-2 px-4 py-2 rounded-xl glass text-sm text-zinc-300">
+                <span class="iconify text-neon-green" data-icon="mdi:rocket-launch" data-width="16"></span>
+                Open to Work
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section id="skills" class="py-24 md:py-36 px-4 relative">
+      <div class="glow-orb w-[400px] h-[400px] bg-purple-500/5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute"></div>
+      <div class="max-w-6xl mx-auto relative">
+        <div class="text-center mb-16">
+          <span class="reveal text-xs font-semibold uppercase tracking-widest text-neon-cyan/70 mb-4 block">Technical Arsenal</span>
+          <h2 class="reveal text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight" style="transition-delay:100ms">
+            Skills & <span class="text-gradient">Technologies</span>
+          </h2>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+         <!-- Languages -->
+<div class="reveal glass rounded-2xl p-6" style="transition-delay:0ms">
+  <div class="flex items-center gap-3 mb-5">
+    <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center">
+      <span class="iconify text-neon-cyan" data-icon="mdi:code-braces" data-width="22"></span>
+    </div>
+    <h3 class="font-semibold text-white">Languages</h3>
+  </div>
+  <div class="flex flex-wrap gap-2">
+    <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Python</span>
+    <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Java</span>
+    <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">JavaScript (Basics)</span>
+  </div>
+</div>
+
+<!-- Web Development -->
+<div class="reveal glass rounded-2xl p-6" style="transition-delay:80ms">
+  <div class="flex items-center gap-3 mb-5">
+    <div class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
+      <span class="iconify text-neon-purple" data-icon="mdi:web" data-width="22"></span>
+    </div>
+    <h3 class="font-semibold text-white">Web Technologies</h3>
+  </div>
+  <div class="flex flex-wrap gap-2">
+    <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">HTML</span>
+    <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">CSS</span>
+    <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">JavaScript</span>
+  </div>
+</div>
+
+<!-- Concepts -->
+<div class="reveal glass rounded-2xl p-6" style="transition-delay:160ms">
+  <div class="flex items-center gap-3 mb-5">
+    <div class="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
+      <span class="iconify text-neon-green" data-icon="mdi:brain" data-width="22"></span>
+    </div>
+    <h3 class="font-semibold text-white">Core Concepts</h3>
+  </div>
+  <div class="flex flex-wrap gap-2">
+    <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">OOP</span>
+    <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Data Structures</span>
+    <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">AI Basics</span>
+    <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">Generative AI</span>
+  </div>
+</div>
+
+<!-- AI & Prompting -->
+<div class="reveal glass rounded-2xl p-6" style="transition-delay:240ms">
+  <div class="flex items-center gap-3 mb-5">
+    <div class="w-10 h-10 rounded-xl bg-pink-500/10 flex items-center justify-center">
+      <span class="iconify text-neon-pink" data-icon="mdi:robot" data-width="22"></span>
+    </div>
+    <h3 class="font-semibold text-white">AI & Prompting</h3>
+  </div>
+  <div class="flex flex-wrap gap-2">
+    <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Generative AI</span>
+    <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">Prompt Engineering</span>
+  </div>
+</div>
+
+<!-- Tools -->
+<div class="reveal glass rounded-2xl p-6" style="transition-delay:320ms">
+  <div class="flex items-center gap-3 mb-5">
+    <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center">
+      <span class="iconify text-neon-cyan" data-icon="mdi:tools" data-width="22"></span>
+    </div>
+    <h3 class="font-semibold text-white">Tools & Platforms</h3>
+  </div>
+  <div class="flex flex-wrap gap-2">
+    <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Git</span>
+    <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">VS Code</span>
+    <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">AWS</span>
+    <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">Jenkins</span>
+  </div>
+</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <section id="projects" class="py-24 md:py-36 px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <span class="reveal text-xs font-semibold uppercase tracking-widest text-neon-cyan/70 mb-4 block">Featured Work</span>
+          <h2 class="reveal text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight" style="transition-delay:100ms">
+            AI <span class="text-gradient">Projects</span>
+          </h2>
+        </div>
+        <div class="space-y-8">
+          <!-- Project 1: IGRIS -->
+          <div class="reveal project-card glass rounded-3xl overflow-hidden" style="transition-delay:0ms">
+            <div class="grid md:grid-cols-2">
+              <div class="relative h-64 md:h-auto overflow-hidden">
+                <img src="./images/IRONMAN.jpeg" alt="IGRIS AI" class="project-img w-full h-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent to-black/80 hidden md:block"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent md:hidden"></div>
+                <div class="absolute top-4 left-4">
+                  <span class="px-3 py-1 rounded-full bg-neon-cyan/20 text-neon-cyan text-xs font-semibold border border-neon-cyan/30">Featured</span>
+                </div>
+              </div>
+              <div class="p-8 md:p-10 flex flex-col justify-center">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="iconify text-neon-cyan" data-icon="mdi:robot" data-width="20"></span>
+                  <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider">Voice AI • NLP • Automation</span>
+                </div>
+                <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">Personal IGRIS AI Assistant</h3>
+                <p class="text-zinc-400 text-sm leading-relaxed mb-6">
+                  A sophisticated voice-activated AI assistant capable of natural conversations, task automation, smart home control, real-time web search, and contextual memory. Features wake-word detection, multi-turn dialogue management, and seamless integration with external APIs for weather, news, and productivity tools.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-6">
+                  <span class="px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-400 text-[11px] font-mono font-medium">Python</span>
+                  <span class="px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-400 text-[11px] font-mono font-medium">TensorFlow</span>
+                  <span class="px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-400 text-[11px] font-mono font-medium">SpeechRecognition</span>
+                  <span class="px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-400 text-[11px] font-mono font-medium">pyttsx3</span>
+                  <span class="px-2.5 py-1 rounded-md bg-zinc-500/10 text-zinc-400 text-[11px] font-mono font-medium">OpenAI API</span>
+                </div>
+                <div class="flex gap-3">
+                  <a href="#" class="btn-outline px-5 py-2.5 rounded-xl glass text-sm font-medium text-zinc-300 flex items-center gap-2">
+                    <span class="iconify" data-icon="mdi:github" data-width="16"></span>
+                    Code
+                  </a>
+                  <a href="#" class="btn-outline px-5 py-2.5 rounded-xl glass text-sm font-medium text-zinc-300 flex items-center gap-2">
+                    <span class="iconify" data-icon="mdi:open-in-new" data-width="16"></span>
+                    Demo
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 2: Wildfire Detection -->
+          <div class="reveal project-card glass rounded-3xl overflow-hidden" style="transition-delay:100ms">
+            <div class="grid md:grid-cols-2">
+              <div class="p-8 md:p-10 flex flex-col justify-center order-2 md:order-1">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="iconify text-neon-green" data-icon="mdi:fire" data-width="20"></span>
+                  <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider">Computer Vision • CNN • Detection</span>
+                </div>
+                <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">Forest Wildfire Detection</h3>
+                <p class="text-zinc-400 text-sm leading-relaxed mb-6">
+                  An early-warning computer vision system for detecting forest wildfires using satellite and drone imagery. Built a custom CNN architecture with attention mechanisms achieving 95%+ detection accuracy. Features real-time inference pipeline, geospatial mapping of detected fires, and automated alert system for rapid response coordination.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-6">
+                  <span class="px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-400 text-[11px] font-mono font-medium">PyTorch</span>
+                  <span class="px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-400 text-[11px] font-mono font-medium">OpenCV</span>
+                  <span class="px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-400 text-[11px] font-mono font-medium">YOLOv8</span>
+                  <span class="px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-400 text-[11px] font-mono font-medium">TensorFlow</span>
+                  <span class="px-2.5 py-1 rounded-md bg-zinc-500/10 text-zinc-400 text-[11px] font-mono font-medium">Python</span>
+                </div>
+                <div class="flex gap-3">
+                  <a href="#" class="btn-outline px-5 py-2.5 rounded-xl glass text-sm font-medium text-zinc-300 flex items-center gap-2">
+                    <span class="iconify" data-icon="mdi:github" data-width="16"></span>
+                    Code
+                  </a>
+                  <a href="#" class="btn-outline px-5 py-2.5 rounded-xl glass text-sm font-medium text-zinc-300 flex items-center gap-2">
+                    <span class="iconify" data-icon="mdi:file-document-outline" data-width="16"></span>
+                    Paper
+                  </a>
+                </div>
+              </div>
+              <div class="relative h-64 md:h-auto overflow-hidden order-1 md:order-2">
+                <img src="./images/fireimg.webp" alt="Wildfire Detection" class="project-img w-full h-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-l from-transparent to-black/80 hidden md:block"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent md:hidden"></div>
+                <div class="absolute top-4 right-4">
+                  <span class="px-3 py-1 rounded-full bg-neon-green/20 text-neon-green text-xs font-semibold border border-neon-green/30">95% Accuracy</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 3: Pollen Classification -->
+          <div class="reveal project-card glass rounded-3xl overflow-hidden" style="transition-delay:200ms">
+            <div class="grid md:grid-cols-2">
+              <div class="relative h-64 md:h-auto overflow-hidden">
+                <img src="./images/Picture1.jpg" alt="Pollen Classification" class="project-img w-full h-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent to-black/80 hidden md:block"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent md:hidden"></div>
+              </div>
+              <div class="p-8 md:p-10 flex flex-col justify-center">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="iconify text-neon-purple" data-icon="mdi:flower-pollen" data-width="20"></span>
+                  <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider">Deep Learning • Classification • Research</span>
+                </div>
+                <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">Pollen Classification System</h3>
+                <p class="text-zinc-400 text-sm leading-relaxed mb-6">
+                  An automated deep learning system for classifying pollen grains from microscopic images. Implements transfer learning with fine-tuned ResNet and custom attention modules to distinguish between 30+ pollen species. Aids allergen monitoring, botanical research, and environmental assessment with a web-based dashboard for researchers.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-6">
+                  <span class="px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-400 text-[11px] font-mono font-medium">TensorFlow</span>
+                  <span class="px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-400 text-[11px] font-mono font-medium">Keras</span>
+                  <span class="px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-400 text-[11px] font-mono font-medium">ResNet</span>
+                  <span class="px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-400 text-[11px] font-mono font-medium">OpenCV</span>
+                  <span class="px-2.5 py-1 rounded-md bg-zinc-500/10 text-zinc-400 text-[11px] font-mono font-medium">Streamlit</span>
+                </div>
+                <div class="flex gap-3">
+                  <a href="#" class="btn-outline px-5 py-2.5 rounded-xl glass text-sm font-medium text-zinc-300 flex items-center gap-2">
+                    <span class="iconify" data-icon="mdi:github" data-width="16"></span>
+                    Code
+                  </a>
+                  <a href="#" class="btn-outline px-5 py-2.5 rounded-xl glass text-sm font-medium text-zinc-300 flex items-center gap-2">
+                    <span class="iconify" data-icon="mdi:open-in-new" data-width="16"></span>
+                    Demo
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EXPERIENCE: Internships ===== -->
+    <section id="experience" class="py-24 md:py-36 px-4 relative">
+      <div class="glow-orb w-[300px] h-[300px] bg-cyan-500/5 top-20 right-0 absolute"></div>
+      <div class="max-w-6xl mx-auto relative">
+        <div class="text-center mb-16">
+          <span class="reveal text-xs font-semibold uppercase tracking-widest text-neon-cyan/70 mb-4 block">Career Path</span>
+          <h2 class="reveal text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight" style="transition-delay:100ms">
+            Experience & <span class="text-gradient">Education</span>
+          </h2>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-16">
+          <!-- Internships -->
+          <div>
+            <h3 class="reveal text-xl font-bold text-white mb-8 flex items-center gap-3">
+              <span class="iconify text-neon-cyan" data-icon="mdi:briefcase" data-width="24"></span>
+              Internships
+            </h3>
+            <div class="relative pl-8">
+              <div class="absolute left-3 top-2 bottom-2 w-px timeline-line"></div>
+
+              <div class="reveal mb-10 relative" style="transition-delay:0ms">
+                <div class="absolute left-[-22px] top-1 w-3 h-3 rounded-full bg-neon-cyan timeline-dot"></div>
+                <div class="glass rounded-2xl p-6">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-mono text-neon-cyan">Jun 2024 — Aug 2024</span>
+                  </div>
+                  <h4 class="text-lg font-semibold text-white mb-1">AI/ML Engineer Intern</h4>
+                  <p class="text-sm text-neon-purple font-medium mb-3">TechNova Solutions</p>
+                  <ul class="text-sm text-zinc-400 space-y-2">
+                    <li class="flex items-start gap-2"><span class="text-neon-cyan mt-1">›</span>Developed CV models for automated quality inspection achieving 94% defect detection</li>
+                    <li class="flex items-start gap-2"><span class="text-neon-cyan mt-1">›</span>Custom YOLO architecture with attention mechanisms for real-time inference</li>
+                    <li class="flex items-start gap-2"><span class="text-neon-cyan mt-1">›</span>Deployed models using Flask and Docker on AWS EC2</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="reveal mb-10 relative" style="transition-delay:100ms">
+                <div class="absolute left-[-22px] top-1 w-3 h-3 rounded-full bg-neon-purple timeline-dot" style="box-shadow:0 0 12px rgba(168,85,247,0.4)"></div>
+                <div class="glass rounded-2xl p-6">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-mono text-neon-purple">Jan 2024 — Apr 2024</span>
+                  </div>
+                  <h4 class="text-lg font-semibold text-white mb-1">Data Science Intern</h4>
+                  <p class="text-sm text-neon-cyan font-medium mb-3">DataPulse Analytics</p>
+                  <ul class="text-sm text-zinc-400 space-y-2">
+                    <li class="flex items-start gap-2"><span class="text-neon-purple mt-1">›</span>Built predictive models for customer churn analysis reducing churn by 18%</li>
+                    <li class="flex items-start gap-2"><span class="text-neon-purple mt-1">›</span>Processed and analyzed 2M+ records using Pandas and SQL</li>
+                    <li class="flex items-start gap-2"><span class="text-neon-purple mt-1">›</span>Created interactive dashboards using Plotly and Streamlit</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Education & Certifications -->
+          <div>
+            <h3 class="reveal text-xl font-bold text-white mb-8 flex items-center gap-3">
+              <span class="iconify text-neon-purple" data-icon="mdi:school" data-width="24"></span>
+              Education
+            </h3>
+            <div class="reveal glass rounded-2xl p-6 mb-8" style="transition-delay:0ms">
+              <span class="text-xs font-mono text-neon-cyan mb-2 block">2021 — 2025</span>
+              <h4 class="text-lg font-semibold text-white mb-1">B.Tech in Computer Science & Engineering</h4>
+              <p class="text-sm text-neon-purple font-medium mb-3">Institute of Technology</p>
+              <div class="flex items-center gap-4 mb-3">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-zinc-500">CGPA:</span>
+                  <span class="text-sm font-bold text-gradient">8.19 / 10</span>
+                </div>
+              </div>
+              <p class="text-xs text-zinc-500">Relevant: Machine Learning, Deep Learning, Computer Vision, NLP, Data Structures, Algorithms, Database Systems</p>
+            </div>
+
+            <h3 class="reveal text-xl font-bold text-white mb-8 flex items-center gap-3" style="transition-delay:100ms">
+              <span class="iconify text-neon-green" data-icon="mdi:certificate" data-width="24"></span>
+              Certifications
+            </h3>
+            <div class="grid gap-3">
+              <div class="reveal cert-card glass rounded-xl p-4 flex items-start gap-4" style="transition-delay:150ms">
+                <div class="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <span class="iconify text-neon-cyan" data-icon="mdi:google" data-width="20"></span>
+                </div>
+                <div>
+                  <h4 class="text-sm font-semibold text-white">TensorFlow Developer Certificate</h4>
+                  <p class="text-xs text-zinc-500">Google • 2024</p>
+                </div>
+              </div>
+              <div class="reveal cert-card glass rounded-xl p-4 flex items-start gap-4" style="transition-delay:200ms">
+                <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <span class="iconify text-neon-purple" data-icon="mdi:school" data-width="20"></span>
+                </div>
+                <div>
+                  <h4 class="text-sm font-semibold text-white">Deep Learning Specialization</h4>
+                  <p class="text-xs text-zinc-500">Coursera — Andrew Ng • 2023</p>
+                </div>
+              </div>
+              <div class="reveal cert-card glass rounded-xl p-4 flex items-start gap-4" style="transition-delay:250ms">
+                <div class="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <span class="iconify text-neon-green" data-icon="mdi:aws" data-width="20"></span>
+                </div>
+                <div>
+                  <h4 class="text-sm font-semibold text-white">AWS ML Specialty</h4>
+                  <p class="text-xs text-zinc-500">Amazon Web Services • 2024</p>
+                </div>
+              </div>
+              <div class="reveal cert-card glass rounded-xl p-4 flex items-start gap-4" style="transition-delay:300ms">
+                <div class="w-10 h-10 rounded-lg bg-pink-500/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <span class="iconify text-neon-pink" data-icon="mdi:trophy" data-width="20"></span>
+                </div>
+                <div>
+                  <h4 class="text-sm font-semibold text-white">Machine Learning — Stanford</h4>
+                  <p class="text-xs text-zinc-500">Coursera — Andrew Ng • 2023</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== AI ASSISTANT ===== -->
+    <section id="ai-assistant" class="py-24 md:py-36 px-4 relative">
+      <div class="glow-orb w-[500px] h-[500px] bg-purple-500/5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute"></div>
+      <div class="max-w-3xl mx-auto relative">
+        <div class="text-center mb-12">
+          <span class="reveal text-xs font-semibold uppercase tracking-widest text-neon-cyan/70 mb-4 block">Interactive</span>
+          <h2 class="reveal text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-4" style="transition-delay:100ms">
+            Ask My <span class="text-gradient">AI Assistant</span>
+          </h2>
+          <p class="reveal text-zinc-500 text-sm" style="transition-delay:150ms">Chat with an AI that knows everything about me</p>
+        </div>
+
+        <div class="reveal glass-strong rounded-3xl overflow-hidden" style="transition-delay:200ms">
+          <!-- Chat Header -->
+          <div class="px-6 py-4 border-b border-white/5 flex items-center gap-3">
+            <div class="relative">
+              <div class="w-9 h-9 rounded-full bg-gradient-to-br from-neon-cyan/30 to-neon-purple/30 flex items-center justify-center">
+                <span class="iconify text-neon-cyan" data-icon="mdi:robot-happy" data-width="20"></span>
+              </div>
+              <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-neon-green border-2 border-black"></div>
+            </div>
+            <div>
+              <div class="text-sm font-semibold text-white">Abrar's AI</div>
+              <div class="text-[11px] text-neon-green">Online • Ready to chat</div>
+            </div>
+          </div>
+
+          <!-- Chat Messages -->
+          <div id="chat-messages" class="p-6 h-80 overflow-y-auto space-y-4 scroll-smooth">
+            <div class="chat-message flex gap-3">
+              <div class="w-7 h-7 rounded-full bg-gradient-to-br from-neon-cyan/30 to-neon-purple/30 flex items-center justify-center shrink-0 mt-0.5">
+                <span class="iconify text-neon-cyan" data-icon="mdi:robot-happy" data-width="14"></span>
+              </div>
+              <div class="glass rounded-2xl rounded-tl-md px-4 py-3 max-w-[85%]">
+                <p class="text-sm text-zinc-300 leading-relaxed">Hey! 👋 I'm Abrar's AI assistant. Ask me anything about his skills, projects, experience, or how to get in touch!</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="px-6 pb-3 flex flex-wrap gap-2" id="quick-actions">
+            <button onclick="sendQuickAction('about')" class="px-3 py-1.5 rounded-full glass text-xs text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan/30 transition-all">About Abrar</button>
+            <button onclick="sendQuickAction('skills')" class="px-3 py-1.5 rounded-full glass text-xs text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan/30 transition-all">Skills</button>
+            <button onclick="sendQuickAction('projects')" class="px-3 py-1.5 rounded-full glass text-xs text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan/30 transition-all">Projects</button>
+            <button onclick="sendQuickAction('contact')" class="px-3 py-1.5 rounded-full glass text-xs text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan/30 transition-all">Contact Info</button>
+          </div>
+
+          <!-- Chat Input -->
+          <div class="px-6 pb-6">
+            <form id="chat-form" class="flex gap-2">
+              <input type="text" id="chat-input" placeholder="Type your message..." class="input-field flex-1 px-4 py-3 rounded-xl bg-white/5 border border-white/8 text-sm text-white placeholder-zinc-600 outline-none" />
+              <button type="submit" class="w-11 h-11 rounded-xl bg-gradient-to-r from-neon-cyan/20 to-neon-purple/20 border border-neon-cyan/30 flex items-center justify-center text-neon-cyan hover:shadow-[0_0_20px_rgba(0,240,255,0.2)] transition-all shrink-0">
+                <span class="iconify" data-icon="mdi:send" data-width="18"></span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact" class="py-24 md:py-36 px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <span class="reveal text-xs font-semibold uppercase tracking-widest text-neon-cyan/70 mb-4 block">Get In Touch</span>
+          <h2 class="reveal text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight" style="transition-delay:100ms">
+            Let's <span class="text-gradient">Connect</span>
+          </h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-12">
+          <!-- Contact Info -->
+          <div class="reveal-left" style="transition-delay:0ms">
+            <p class="text-zinc-400 text-base leading-relaxed mb-8">
+              I'm always open to discussing new opportunities, interesting AI projects, or just having a conversation about technology. Feel free to reach out!
+            </p>
+            <div class="space-y-4 mb-10">
+              <a href="mailto:abrar313k@gmail.com" class="flex items-center gap-4 p-4 rounded-xl glass hover:border-neon-cyan/30 transition-all group">
+                <div class="w-11 h-11 rounded-xl bg-cyan-500/10 flex items-center justify-center">
+                  <span class="iconify text-neon-cyan" data-icon="mdi:email-outline" data-width="22"></span>
+                </div>
+                <div>
+                  <div class="text-xs text-zinc-500 mb-0.5">Email</div>
+                  <div class="text-sm text-zinc-300 group-hover:text-neon-cyan transition-colors">abrar313k@gmail.com</div>
+                </div>
+              </a>
+              <a href="https://www.linkedin.com/in/abrar-khan-7b536b315/" target="_blank" class="flex items-center gap-4 p-4 rounded-xl glass hover:border-neon-cyan/30 transition-all group">
+                <div class="w-11 h-11 rounded-xl bg-blue-500/10 flex items-center justify-center">
+                  <span class="iconify text-blue-400" data-icon="mdi:linkedin" data-width="22"></span>
+                </div>
+                <div>
+                  <div class="text-xs text-zinc-500 mb-0.5">LinkedIn</div>
+                  <div class="text-sm text-zinc-300 group-hover:text-blue-400 transition-colors">linkedin.com/in/abrar-khan</div>
+                </div>
+              </a>
+              <a href="https://github.com/abrar-khan123" target="_blank" class="flex items-center gap-4 p-4 rounded-xl glass hover:border-neon-cyan/30 transition-all group">
+                <div class="w-11 h-11 rounded-xl bg-purple-500/10 flex items-center justify-center">
+                  <span class="iconify text-purple-400" data-icon="mdi:github" data-width="22"></span>
+                </div>
+                <div>
+                  <div class="text-xs text-zinc-500 mb-0.5">GitHub</div>
+                  <div class="text-sm text-zinc-300 group-hover:text-purple-400 transition-colors">github.com/abrar-khan</div>
+                </div>
+              </a>
+              <div class="flex items-center gap-4 p-4 rounded-xl glass">
+                <div class="w-11 h-11 rounded-xl bg-green-500/10 flex items-center justify-center">
+                  <span class="iconify text-neon-green" data-icon="mdi:map-marker" data-width="22"></span>
+                </div>
+                <div>
+                  <div class="text-xs text-zinc-500 mb-0.5">Location</div>
+                  <div class="text-sm text-zinc-300">India</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <div class="reveal" style="transition-delay:150ms">
+            <form id="contact-form" class="glass rounded-2xl p-8 space-y-5">
+              <div>
+                <label class="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2 block">Name</label>
+                <input type="text" required placeholder="Your name" class="input-field w-full px-4 py-3 rounded-xl bg-white/5 border border-white/8 text-sm text-white placeholder-zinc-600 outline-none" />
+              </div>
+              <div>
+                <label class="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2 block">Email</label>
+                <input type="email" required placeholder="your@email.com" class="input-field w-full px-4 py-3 rounded-xl bg-white/5 border border-white/8 text-sm text-white placeholder-zinc-600 outline-none" />
+              </div>
+              <div>
+                <label class="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2 block">Message</label>
+                <textarea required rows="4" placeholder="Tell me about your project or opportunity..." class="input-field w-full px-4 py-3 rounded-xl bg-white/5 border border-white/8 text-sm text-white placeholder-zinc-600 outline-none resize-none"></textarea>
+              </div>
+              <button type="submit" class="btn-primary w-full py-3.5 rounded-xl bg-gradient-to-r from-neon-cyan/20 to-neon-purple/20 border border-neon-cyan/30 text-sm font-semibold text-white flex items-center justify-center gap-2">
+                <span class="iconify" data-icon="mdi:send" data-width="18"></span>
+                Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="relative z-10 border-t border-white/5 py-12 px-4">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="text-sm text-zinc-600">
+        © 2025 Pathan Abrar Khan. Crafted with <span class="text-neon-cyan">♥</span> and AI
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/" target="_blank" class="w-9 h-9 rounded-lg glass flex items-center justify-center text-zinc-500 hover:text-neon-cyan transition-colors">
+          <span class="iconify" data-icon="mdi:github" data-width="18"></span>
+        </a>
+        <a href="https://linkedin.com/" target="_blank" class="w-9 h-9 rounded-lg glass flex items-center justify-center text-zinc-500 hover:text-neon-cyan transition-colors">
+          <span class="iconify" data-icon="mdi:linkedin" data-width="18"></span>
+        </a>
+        <a href="mailto:abrar313k@gmail.com" class="w-9 h-9 rounded-lg glass flex items-center justify-center text-zinc-500 hover:text-neon-cyan transition-colors">
+          <span class="iconify" data-icon="mdi:email" data-width="18"></span>
+        </a>
+        <a href="#" onclick="showToast('📄 Resume download started!');return false;" class="w-9 h-9 rounded-lg glass flex items-center justify-center text-zinc-500 hover:text-neon-cyan transition-colors">
+          <span class="iconify" data-icon="mdi:download" data-width="18"></span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-[100] space-y-3"></div>
+
+  <!-- ===== THREE.JS MODULE ===== -->
+  <script type="module">
+    import * as THREE from 'three';
+
+    const canvas = document.getElementById('bg-canvas');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Particles
+    const particleCount = 1500;
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+    const sizes = new Float32Array(particleCount);
+    const speeds = new Float32Array(particleCount);
+
+    for (let i = 0; i < particleCount; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 40;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 40;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 40;
+
+      const colorChoice = Math.random();
+      if (colorChoice < 0.6) {
+        colors[i * 3] = 0; colors[i * 3 + 1] = 0.94; colors[i * 3 + 2] = 1;
+      } else if (colorChoice < 0.85) {
+        colors[i * 3] = 0.66; colors[i * 3 + 1] = 0.33; colors[i * 3 + 2] = 0.97;
+      } else {
+        colors[i * 3] = 0; colors[i * 3 + 1] = 1; colors[i * 3 + 2] = 0.53;
+      }
+
+      sizes[i] = Math.random() * 2 + 0.5;
+      speeds[i] = Math.random() * 0.5 + 0.2;
+    }
+
+    const particleGeometry = new THREE.BufferGeometry();
+    particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    particleGeometry.setAttribute('aColor', new THREE.BufferAttribute(colors, 3));
+    particleGeometry.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
+
+    const particleMaterial = new THREE.ShaderMaterial({
+      vertexShader: `
+        attribute vec3 aColor;
+        attribute float aSize;
+        varying vec3 vColor;
+        void main() {
+          vColor = aColor;
+          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+          gl_PointSize = aSize * (200.0 / -mvPosition.z);
+          gl_Position = projectionMatrix * mvPosition;
+        }
+      `,
+      fragmentShader: `
+        varying vec3 vColor;
+        void main() {
+          float d = length(gl_PointCoord - vec2(0.5));
+          if (d > 0.5) discard;
+          float alpha = smoothstep(0.5, 0.1, d) * 0.5;
+          gl_FragColor = vec4(vColor, alpha);
+        }
+      `,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending
+    });
+
+    const particles = new THREE.Points(particleGeometry, particleMaterial);
+    scene.add(particles);
+
+    // Hologram Orb Group
+    const orbGroup = new THREE.Group();
+
+    const orbMat1 = new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true, transparent: true, opacity: 0.18 });
+    const orbMat2 = new THREE.MeshBasicMaterial({ color: 0xa855f7, wireframe: true, transparent: true, opacity: 0.12 });
+    const orbMat3 = new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true, transparent: true, opacity: 0.06 });
+
+    const mesh1 = new THREE.Mesh(new THREE.IcosahedronGeometry(2.2, 2), orbMat1);
+    const mesh2 = new THREE.Mesh(new THREE.IcosahedronGeometry(1.8, 1), orbMat2);
+    const mesh3 = new THREE.Mesh(new THREE.SphereGeometry(1.4, 20, 20), orbMat3);
+
+    orbGroup.add(mesh1, mesh2, mesh3);
+    orbGroup.position.set(1.5, 0, 0);
+    scene.add(orbGroup);
+
+    // Inner glow sphere
+    const glowGeo = new THREE.SphereGeometry(1.0, 32, 32);
+    const glowMat = new THREE.ShaderMaterial({
+      vertexShader: `
+        varying vec3 vNormal;
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        varying vec3 vNormal;
+        void main() {
+          float intensity = pow(0.65 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.5);
+          gl_FragColor = vec4(0.0, 0.94, 1.0, intensity * 0.4);
+        }
+      `,
+      transparent: true,
+      side: THREE.FrontSide,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending
+    });
+    const glowMesh = new THREE.Mesh(glowGeo, glowMat);
+    orbGroup.add(glowMesh);
+
+    camera.position.z = 6;
+
+    // Mouse tracking
+    let mouseX = 0, mouseY = 0, targetMouseX = 0, targetMouseY = 0;
+    document.addEventListener('mousemove', (e) => {
+      targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+      targetMouseY = -(e.clientY / window.innerHeight - 0.5) * 2;
+    });
+
+    let scrollY = 0;
+    window.addEventListener('scroll', () => { scrollY = window.scrollY; });
+
+    // Animation
+    const clock = new THREE.Clock();
+    function animate() {
+      requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+
+      mouseX += (targetMouseX - mouseX) * 0.04;
+      mouseY += (targetMouseY - mouseY) * 0.04;
+
+      mesh1.rotation.x = t * 0.15 + mouseY * 0.3;
+      mesh1.rotation.y = t * 0.2 + mouseX * 0.3;
+      mesh2.rotation.x = -t * 0.12 + mouseY * 0.2;
+      mesh2.rotation.y = -t * 0.18 + mouseX * 0.2;
+      mesh3.rotation.x = t * 0.08;
+      mesh3.rotation.z = t * 0.12;
+
+      // Pulse
+      const pulse = 1 + Math.sin(t * 1.5) * 0.05;
+      orbGroup.scale.setScalar(pulse);
+
+      // Scroll fade
+      const heroH = window.innerHeight;
+      const sp = Math.min(scrollY / heroH, 1);
+      orbGroup.position.y = -sp * 4;
+      orbGroup.children.forEach(c => {
+        c.material.opacity = c.material.opacity * (1 - sp * 0.8);
+      });
+      // Reset opacity for next frame
+      orbMat1.opacity = 0.18 * (1 - sp);
+      orbMat2.opacity = 0.12 * (1 - sp);
+      orbMat3.opacity = 0.06 * (1 - sp);
+
+      // Particle drift
+      const posArr = particleGeometry.attributes.position.array;
+      for (let i = 0; i < particleCount; i++) {
+        posArr[i * 3 + 1] += speeds[i] * 0.003;
+        if (posArr[i * 3 + 1] > 20) posArr[i * 3 + 1] = -20;
+      }
+      particleGeometry.attributes.position.needsUpdate = true;
+      particles.rotation.y = t * 0.02;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+
+  <!-- ===== MAIN SCRIPTS ===== -->
+  <script>
+    // Typing Animation
+    const typedEl = document.getElementById('typed-text');
+    const phrases = ['AI Developer', 'ML Engineer', 'Deep Learning Enthusiast', 'Computer Vision Specialist', 'Python Expert'];
+    let phraseIdx = 0, charIdx = 0, isDeleting = false;
+
+    function typeLoop() {
+      const current = phrases[phraseIdx];
+      if (isDeleting) {
+        typedEl.textContent = current.substring(0, charIdx--);
+        if (charIdx < 0) { isDeleting = false; phraseIdx = (phraseIdx + 1) % phrases.length; setTimeout(typeLoop, 400); return; }
+        setTimeout(typeLoop, 40);
+      } else {
+        typedEl.textContent = current.substring(0, ++charIdx);
+        if (charIdx === current.length) { isDeleting = true; setTimeout(typeLoop, 2000); return; }
+        setTimeout(typeLoop, 80);
+      }
+    }
+    typeLoop();
+
+    // Scroll Reveal
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-scale').forEach(el => revealObserver.observe(el));
+
+    // Navbar Scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Active Nav Link
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 200) current = s.getAttribute('id');
+      });
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+      });
+    });
+
+    // Mobile Menu
+    const mobileMenu = document.getElementById('mobile-menu');
+    document.getElementById('menu-toggle').addEventListener('click', () => mobileMenu.classList.add('open'));
+    document.getElementById('menu-close').addEventListener('click', () => mobileMenu.classList.remove('open'));
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    });
+
+    // Toast Notification
+    function showToast(message) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'glass-strong rounded-xl px-5 py-3.5 text-sm text-white border border-neon-cyan/20 flex items-center gap-3 min-w-[280px]';
+      toast.style.animation = 'chatIn 0.4s ease';
+      toast.innerHTML = `<span class="iconify text-neon-cyan shrink-0" data-icon="mdi:check-circle" data-width="20"></span><span>${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(20px)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // AI Chat
+    const chatMessages = document.getElementById('chat-messages');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+
+    const responses = {
+  about: `Abrar Khan is a Computer Science graduate and AI enthusiast passionate about building intelligent systems and AI assistants. He focuses on Python development, Generative AI, Prompt Engineering, and AI-powered applications.\n\nHis current mission is building a human-like AI assistant inspired by Jarvis that can understand, assist, and automate real-world tasks.`,
+
+  skills: `Abrar's technical skills include:\n\n🐍 **Languages:** Python, Java, JavaScript (Basics)\n🌐 **Web:** HTML, CSS, JavaScript\n🧠 **Concepts:** OOP, Data Structures, AI Basics\n🤖 **AI:** Generative AI, Prompt Engineering\n🛠️ **Tools:** Git, VS Code, AWS, Jenkins\n💻 **Development:** Flask, Python Applications`,
+
+  projects: `Abrar has worked on several projects:\n\n🤖 **IGRIS AI Assistant** — Voice-enabled personal AI assistant with automation and intelligent interactions.\n\n🌸 **Pollen Grain Classification System** — Deep learning project for identifying pollen species from microscopic images.\n\n🛣️ **Automatic Road Extraction System** — SIH project for detecting and generating alerts for new roads using satellite imagery.`,
+
+  contact: `Here's how to reach Abrar:\n\n📧 **Email:** abrar313k@gmail.com\n💻 **GitHub:** github.com/yourusername\n🔗 **LinkedIn:** linkedin.com/in/yourprofile\n📍 **Location:** India\n\nHe is currently open to opportunities in AI, Software Development, and Generative AI.`,
+
+  default: `I can tell you about Abrar's **skills**, **projects**, **education**, **IGRIS AI assistant**, or **contact information**. What would you like to know?`
+};
+
+    function classifyMessage(msg) {
+      const m = msg.toLowerCase();
+      if (m.includes('about') || m.includes('who') || m.includes('tell me') || m.includes('introduce')) return 'about';
+      if (m.includes('skill') || m.includes('tech') || m.includes('stack') || m.includes('language') || m.includes('tool')) return 'skills';
+      if (m.includes('project') || m.includes('work') || m.includes('built') || m.includes('IGRIS') || m.includes('wildfire') || m.includes('pollen')) return 'projects';
+      if (m.includes('contact') || m.includes('email') || m.includes('reach') || m.includes('hire') || m.includes('connect') || m.includes('linkedin') || m.includes('github')) return 'contact';
+      return 'default';
+    }
+
+    function formatMessage(text) {
+      return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
+        .replace(/\n/g, '<br>');
+    }
+
+    function addMessage(content, isUser = false) {
+      const div = document.createElement('div');
+      div.className = 'chat-message flex gap-3' + (isUser ? ' justify-end' : '');
+      if (isUser) {
+        div.innerHTML = `<div class="bg-gradient-to-r from-neon-cyan/20 to-neon-purple/20 border border-neon-cyan/20 rounded-2xl rounded-tr-md px-4 py-3 max-w-[85%]"><p class="text-sm text-zinc-200 leading-relaxed">${content}</p></div>`;
+      } else {
+        div.innerHTML = `<div class="w-7 h-7 rounded-full bg-gradient-to-br from-neon-cyan/30 to-neon-purple/30 flex items-center justify-center shrink-0 mt-0.5"><span class="iconify text-neon-cyan" data-icon="mdi:robot-happy" data-width="14"></span></div><div class="glass rounded-2xl rounded-tl-md px-4 py-3 max-w-[85%]"><p class="text-sm text-zinc-300 leading-relaxed">${formatMessage(content)}</p></div>`;
+      }
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function showTypingIndicator() {
+      const div = document.createElement('div');
+      div.className = 'chat-message flex gap-3';
+      div.id = 'typing-indicator';
+      div.innerHTML = `<div class="w-7 h-7 rounded-full bg-gradient-to-br from-neon-cyan/30 to-neon-purple/30 flex items-center justify-center shrink-0 mt-0.5"><span class="iconify text-neon-cyan" data-icon="mdi:robot-happy" data-width="14"></span></div><div class="glass rounded-2xl rounded-tl-md px-4 py-3"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function removeTypingIndicator() {
+      const el = document.getElementById('typing-indicator');
+      if (el) el.remove();
+    }
+
+    function handleChat(msg) {
+      addMessage(msg, true);
+      showTypingIndicator();
+      const category = classifyMessage(msg);
+      const delay = 800 + Math.random() * 800;
+      setTimeout(() => {
+        removeTypingIndicator();
+        addMessage(responses[category]);
+      }, delay);
+    }
+
+    chatForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const msg = chatInput.value.trim();
+      if (!msg) return;
+      chatInput.value = '';
+      handleChat(msg);
+    });
+
+    function sendQuickAction(type) {
+      const labels = { about: 'Tell me about Abrar', skills: 'What are his skills?', projects: 'Show me his projects', contact: 'How can I contact him?' };
+      handleChat(labels[type]);
+    }
+
+    // Contact Form
+    document.getElementById('contact-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      showToast('✉️ Message sent successfully! I\'ll get back to you soon.');
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
