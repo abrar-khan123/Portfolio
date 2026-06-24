@@ -7,6 +7,10 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    emailjs.init('fs5wI4n69UFxh1A8c'); // ← paste your public key here
+  </script>
   <script type="importmap">
   {
     "imports": {
@@ -516,7 +520,7 @@
       </div>
     </section>
 
-    <!-- ===== EXPERIENCE: Internships ===== -->
+<!-- ===== EXPERIENCE: Internships ===== -->
     <section id="experience" class="py-24 md:py-36 px-4 relative">
       <div class="glow-orb w-[300px] h-[300px] bg-cyan-500/5 top-20 right-0 absolute"></div>
       <div class="max-w-6xl mx-auto relative">
@@ -527,112 +531,149 @@
           </h2>
         </div>
 
-        <div class="grid lg:grid-cols-2 gap-16">
-          <!-- Internships -->
-          <div>
-            <h3 class="reveal text-xl font-bold text-white mb-8 flex items-center gap-3">
-              <span class="iconify text-neon-cyan" data-icon="mdi:briefcase" data-width="24"></span>
-              Internships
-            </h3>
-            <div class="relative pl-8">
-              <div class="absolute left-3 top-2 bottom-2 w-px timeline-line"></div>
+        <!-- Internships 2x2 grid — full width -->
+        <div class="mb-16">
+          <h3 class="reveal text-xl font-bold text-white mb-8 flex items-center gap-3">
+            <span class="iconify text-neon-cyan" data-icon="mdi:briefcase" data-width="24"></span>
+            Internships
+          </h3>
+          <div class="grid sm:grid-cols-2 gap-5">
 
-              <div class="reveal mb-10 relative" style="transition-delay:0ms">
-                <div class="absolute left-[-22px] top-1 w-3 h-3 rounded-full bg-neon-cyan timeline-dot"></div>
-                <div class="glass rounded-2xl p-6">
-                  <div class="flex items-center justify-between mb-2">
-                    <span class="text-xs font-mono text-neon-cyan">Jun 2024 — Aug 2024</span>
-                  </div>
-                  <h4 class="text-lg font-semibold text-white mb-1">AI/ML Engineer Intern</h4>
-                  <p class="text-sm text-neon-purple font-medium mb-3">TechNova Solutions</p>
-                  <ul class="text-sm text-zinc-400 space-y-2">
-                    <li class="flex items-start gap-2"><span class="text-neon-cyan mt-1">›</span>Developed CV models for automated quality inspection achieving 94% defect detection</li>
-                    <li class="flex items-start gap-2"><span class="text-neon-cyan mt-1">›</span>Custom YOLO architecture with attention mechanisms for real-time inference</li>
-                    <li class="flex items-start gap-2"><span class="text-neon-cyan mt-1">›</span>Deployed models using Flask and Docker on AWS EC2</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="reveal mb-10 relative" style="transition-delay:100ms">
-                <div class="absolute left-[-22px] top-1 w-3 h-3 rounded-full bg-neon-purple timeline-dot" style="box-shadow:0 0 12px rgba(168,85,247,0.4)"></div>
-                <div class="glass rounded-2xl p-6">
-                  <div class="flex items-center justify-between mb-2">
-                    <span class="text-xs font-mono text-neon-purple">Jan 2024 — Apr 2024</span>
-                  </div>
-                  <h4 class="text-lg font-semibold text-white mb-1">Data Science Intern</h4>
-                  <p class="text-sm text-neon-cyan font-medium mb-3">DataPulse Analytics</p>
-                  <ul class="text-sm text-zinc-400 space-y-2">
-                    <li class="flex items-start gap-2"><span class="text-neon-purple mt-1">›</span>Built predictive models for customer churn analysis reducing churn by 18%</li>
-                    <li class="flex items-start gap-2"><span class="text-neon-purple mt-1">›</span>Processed and analyzed 2M+ records using Pandas and SQL</li>
-                    <li class="flex items-start gap-2"><span class="text-neon-purple mt-1">›</span>Created interactive dashboards using Plotly and Streamlit</li>
-                  </ul>
-                </div>
-              </div>
+            <div class="reveal glass rounded-2xl p-6" style="transition-delay:0ms">
+              <span class="text-xs font-mono text-neon-cyan mb-2 block">May 2025 — Jul 2025</span>
+              <h4 class="text-base font-semibold text-white mb-1">Generative AI Intern</h4>
+              <p class="text-sm text-neon-purple font-medium mb-3">Blackbucks</p>
+              <ul class="text-sm text-zinc-400 space-y-2">
+                <li class="flex items-start gap-2"><span class="text-neon-cyan mt-1">›</span>Learned prompt engineering concepts.</li>
+                <li class="flex items-start gap-2"><span class="text-neon-cyan mt-1">›</span>Explored Generative AI technologies and tools.</li>
+              </ul>
             </div>
-          </div>
 
-          <!-- Education & Certifications -->
+            <div class="reveal glass rounded-2xl p-6" style="transition-delay:100ms">
+              <span class="text-xs font-mono text-neon-purple mb-2 block">May 2025 — Jul 2025</span>
+              <h4 class="text-base font-semibold text-white mb-1">AI & ML Intern</h4>
+              <p class="text-sm text-neon-cyan font-medium mb-3">SmartBridge & APSCHE</p>
+              <ul class="text-sm text-zinc-400 space-y-2">
+                <li class="flex items-start gap-2"><span class="text-neon-purple mt-1">›</span>Gained practical knowledge in AI and ML.</li>
+                <li class="flex items-start gap-2"><span class="text-neon-purple mt-1">›</span>Worked on machine learning concepts.</li>
+              </ul>
+            </div>
+
+            <div class="reveal glass rounded-2xl p-6" style="transition-delay:200ms">
+              <span class="text-xs font-mono text-neon-green mb-2 block">May 2025 — Jun 2025</span>
+              <h4 class="text-base font-semibold text-white mb-1">Java Programming Intern</h4>
+              <p class="text-sm text-neon-green font-medium mb-3">MicroIT</p>
+              <ul class="text-sm text-zinc-400 space-y-2">
+                <li class="flex items-start gap-2"><span class="text-neon-green mt-1">›</span>Focused on core Java concepts.</li>
+                <li class="flex items-start gap-2"><span class="text-neon-green mt-1">›</span>Developed Java applications.</li>
+              </ul>
+            </div>
+
+            <div class="reveal glass rounded-2xl p-6" style="transition-delay:300ms">
+              <span class="text-xs font-mono text-neon-cyan mb-2 block">Jun 2024 — Jul 2024</span>
+              <h4 class="text-base font-semibold text-white mb-1">Python Full Stack Intern</h4>
+              <p class="text-sm text-neon-purple font-medium mb-3">ExcelR</p>
+              <ul class="text-sm text-zinc-400 space-y-2">
+                <li class="flex items-start gap-2"><span class="text-neon-cyan mt-1">›</span>Covered frontend and backend technologies.</li>
+                <li class="flex items-start gap-2"><span class="text-neon-cyan mt-1">›</span>Learned Python full-stack fundamentals.</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Education + Certifications side by side -->
+        <div class="grid lg:grid-cols-2 gap-16">
+
+          <!-- Education -->
           <div>
             <h3 class="reveal text-xl font-bold text-white mb-8 flex items-center gap-3">
               <span class="iconify text-neon-purple" data-icon="mdi:school" data-width="24"></span>
               Education
             </h3>
-            <div class="reveal glass rounded-2xl p-6 mb-8" style="transition-delay:0ms">
+
+            <div class="reveal glass rounded-2xl p-6 mb-4" style="transition-delay:0ms">
               <span class="text-xs font-mono text-neon-cyan mb-2 block">2021 — 2025</span>
-              <h4 class="text-lg font-semibold text-white mb-1">B.Tech in Computer Science & Engineering</h4>
-              <p class="text-sm text-neon-purple font-medium mb-3">Institute of Technology</p>
-              <div class="flex items-center gap-4 mb-3">
-                <div class="flex items-center gap-2">
-                  <span class="text-xs text-zinc-500">CGPA:</span>
-                  <span class="text-sm font-bold text-gradient">8.19 / 10</span>
-                </div>
+              <h4 class="text-base font-semibold text-white mb-1">B.Tech, Computer Science Engineering</h4>
+              <p class="text-sm text-neon-purple font-medium mb-2">Chebrolu Engineering College, Guntur (JNTU-K)</p>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-zinc-500">CGPA:</span>
+                <span class="text-sm font-bold text-gradient">8.19 / 10</span>
               </div>
-              <p class="text-xs text-zinc-500">Relevant: Machine Learning, Deep Learning, Computer Vision, NLP, Data Structures, Algorithms, Database Systems</p>
             </div>
 
-            <h3 class="reveal text-xl font-bold text-white mb-8 flex items-center gap-3" style="transition-delay:100ms">
+            <div class="reveal glass rounded-2xl p-6 mb-4" style="transition-delay:80ms">
+              <span class="text-xs font-mono text-neon-purple mb-2 block">2022</span>
+              <h4 class="text-base font-semibold text-white mb-1">Intermediate (MPC)</h4>
+              <p class="text-sm text-neon-cyan font-medium mb-2">N.K.R. Jr. College, Repalle (BIE, Andhra Pradesh)</p>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-zinc-500">Score:</span>
+                <span class="text-sm font-bold text-gradient">93%</span>
+              </div>
+            </div>
+
+            <div class="reveal glass rounded-2xl p-6" style="transition-delay:160ms">
+              <span class="text-xs font-mono text-neon-green mb-2 block">2020</span>
+              <h4 class="text-base font-semibold text-white mb-1">10th Class</h4>
+              <p class="text-sm text-neon-green font-medium mb-2">Z.P. High School, Pallikona (BSE, Andhra Pradesh)</p>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-zinc-500">Score:</span>
+                <span class="text-sm font-bold text-gradient">91%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Certifications -->
+          <div>
+            <h3 class="reveal text-xl font-bold text-white mb-8 flex items-center gap-3">
               <span class="iconify text-neon-green" data-icon="mdi:certificate" data-width="24"></span>
               Certifications
             </h3>
             <div class="grid gap-3">
-              <div class="reveal cert-card glass rounded-xl p-4 flex items-start gap-4" style="transition-delay:150ms">
+
+              <div class="reveal cert-card glass rounded-xl p-4 flex items-start gap-4" style="transition-delay:100ms">
                 <div class="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center shrink-0 mt-0.5">
-                  <span class="iconify text-neon-cyan" data-icon="mdi:google" data-width="20"></span>
+                  <span class="iconify text-neon-cyan" data-icon="mdi:robot" data-width="20"></span>
                 </div>
                 <div>
-                  <h4 class="text-sm font-semibold text-white">TensorFlow Developer Certificate</h4>
-                  <p class="text-xs text-zinc-500">Google • 2024</p>
+                  <h4 class="text-sm font-semibold text-white">Getting Started with AI</h4>
+                  <p class="text-xs text-zinc-500">IBM</p>
                 </div>
               </div>
-              <div class="reveal cert-card glass rounded-xl p-4 flex items-start gap-4" style="transition-delay:200ms">
+
+              <div class="reveal cert-card glass rounded-xl p-4 flex items-start gap-4" style="transition-delay:150ms">
                 <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center shrink-0 mt-0.5">
-                  <span class="iconify text-neon-purple" data-icon="mdi:school" data-width="20"></span>
+                  <span class="iconify text-neon-purple" data-icon="mdi:shield-lock" data-width="20"></span>
                 </div>
                 <div>
-                  <h4 class="text-sm font-semibold text-white">Deep Learning Specialization</h4>
-                  <p class="text-xs text-zinc-500">Coursera — Andrew Ng • 2023</p>
+                  <h4 class="text-sm font-semibold text-white">Cryptography & Network Security</h4>
+                  <p class="text-xs text-zinc-500">NPTEL</p>
                 </div>
               </div>
-              <div class="reveal cert-card glass rounded-xl p-4 flex items-start gap-4" style="transition-delay:250ms">
+
+              <div class="reveal cert-card glass rounded-xl p-4 flex items-start gap-4" style="transition-delay:200ms">
                 <div class="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center shrink-0 mt-0.5">
-                  <span class="iconify text-neon-green" data-icon="mdi:aws" data-width="20"></span>
+                  <span class="iconify text-neon-green" data-icon="mdi:code-tags" data-width="20"></span>
                 </div>
                 <div>
-                  <h4 class="text-sm font-semibold text-white">AWS ML Specialty</h4>
-                  <p class="text-xs text-zinc-500">Amazon Web Services • 2024</p>
+                  <h4 class="text-sm font-semibold text-white">Python Full Stack, DevOps, Java & DSA</h4>
+                  <p class="text-xs text-zinc-500">Various Platforms</p>
                 </div>
               </div>
-              <div class="reveal cert-card glass rounded-xl p-4 flex items-start gap-4" style="transition-delay:300ms">
+
+              <div class="reveal cert-card glass rounded-xl p-4 flex items-start gap-4" style="transition-delay:250ms">
                 <div class="w-10 h-10 rounded-lg bg-pink-500/10 flex items-center justify-center shrink-0 mt-0.5">
                   <span class="iconify text-neon-pink" data-icon="mdi:trophy" data-width="20"></span>
                 </div>
                 <div>
-                  <h4 class="text-sm font-semibold text-white">Machine Learning — Stanford</h4>
-                  <p class="text-xs text-zinc-500">Coursera — Andrew Ng • 2023</p>
+                  <h4 class="text-sm font-semibold text-white">TCS ION NQT (IT) — Feb 2026</h4>
+                  <p class="text-xs text-zinc-500">Overall Score: 51.60%</p>
                 </div>
               </div>
+
             </div>
           </div>
+
         </div>
       </div>
     </section>
@@ -677,12 +718,13 @@
           </div>
 
           <!-- Quick Actions -->
-          <div class="px-6 pb-3 flex flex-wrap gap-2" id="quick-actions">
-            <button onclick="sendQuickAction('about')" class="px-3 py-1.5 rounded-full glass text-xs text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan/30 transition-all">About Abrar</button>
-            <button onclick="sendQuickAction('skills')" class="px-3 py-1.5 rounded-full glass text-xs text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan/30 transition-all">Skills</button>
-            <button onclick="sendQuickAction('projects')" class="px-3 py-1.5 rounded-full glass text-xs text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan/30 transition-all">Projects</button>
-            <button onclick="sendQuickAction('contact')" class="px-3 py-1.5 rounded-full glass text-xs text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan/30 transition-all">Contact Info</button>
-          </div>
+          <button onclick="sendQuickAction('about')" class="px-3 py-1.5 rounded-full glass text-xs text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan/30 transition-all">About Abrar</button>
+          <button onclick="sendQuickAction('skills')" class="px-3 py-1.5 rounded-full glass text-xs text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan/30 transition-all">Skills</button>
+          <button onclick="sendQuickAction('projects')" class="px-3 py-1.5 rounded-full glass text-xs text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan/30 transition-all">Projects</button>
+          <button onclick="sendQuickAction('internships')" class="px-3 py-1.5 rounded-full glass text-xs text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan/30 transition-all">Internships</button>
+          <button onclick="sendQuickAction('education')" class="px-3 py-1.5 rounded-full glass text-xs text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan/30 transition-all">Education</button>
+          <button onclick="sendQuickAction('certifications')" class="px-3 py-1.5 rounded-full glass text-xs text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan/30 transition-all">Certifications</button>
+          <button onclick="sendQuickAction('contact')" class="px-3 py-1.5 rounded-full glass text-xs text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan/30 transition-all">Contact Info</button>
 
           <!-- Chat Input -->
           <div class="px-6 pb-6">
@@ -757,15 +799,15 @@
             <form id="contact-form" class="glass rounded-2xl p-8 space-y-5">
               <div>
                 <label class="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2 block">Name</label>
-                <input type="text" required placeholder="Your name" class="input-field w-full px-4 py-3 rounded-xl bg-white/5 border border-white/8 text-sm text-white placeholder-zinc-600 outline-none" />
+                <input type="text" name="from_name" required placeholder="Your name" class="input-field w-full px-4 py-3 rounded-xl bg-white/5 border border-white/8 text-sm text-white placeholder-zinc-600 outline-none" />"
               </div>
               <div>
                 <label class="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2 block">Email</label>
-                <input type="email" required placeholder="your@email.com" class="input-field w-full px-4 py-3 rounded-xl bg-white/5 border border-white/8 text-sm text-white placeholder-zinc-600 outline-none" />
+                <input type="email" name="from_email" required placeholder="your@email.com" class="input-field w-full px-4 py-3 rounded-xl bg-white/5 border border-white/8 text-sm text-white placeholder-zinc-600 outline-none" />
               </div>
               <div>
                 <label class="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2 block">Message</label>
-                <textarea required rows="4" placeholder="Tell me about your project or opportunity..." class="input-field w-full px-4 py-3 rounded-xl bg-white/5 border border-white/8 text-sm text-white placeholder-zinc-600 outline-none resize-none"></textarea>
+                <textarea name="message" required rows="4" placeholder="Tell me about your project or opportunity..." class="input-field w-full px-4 py-3 rounded-xl bg-white/5 border border-white/8 text-sm text-white placeholder-zinc-600 outline-none resize-none"></textarea>
               </div>
               <button type="submit" class="btn-primary w-full py-3.5 rounded-xl bg-gradient-to-r from-neon-cyan/20 to-neon-purple/20 border border-neon-cyan/30 text-sm font-semibold text-white flex items-center justify-center gap-2">
                 <span class="iconify" data-icon="mdi:send" data-width="18"></span>
@@ -971,26 +1013,35 @@
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
 
-    const responses = {
-  about: `Abrar Khan is a Computer Science graduate and AI enthusiast passionate about building intelligent systems and AI assistants. He focuses on Python development, Generative AI, Prompt Engineering, and AI-powered applications.\n\nHis current mission is building a human-like AI assistant inspired by Jarvis that can understand, assist, and automate real-world tasks.`,
+   const responses = {
+        about: `Abrar Khan is a Computer Science graduate and AI enthusiast passionate about building intelligent systems and AI assistants. He focuses on Python development, Generative AI, Prompt Engineering, and AI-powered applications.\n\nHis current mission is building a human-like AI assistant inspired by Jarvis that can understand, assist, and automate real-world tasks.`,
 
-  skills: `Abrar's technical skills include:\n\n🐍 **Languages:** Python, Java, JavaScript (Basics)\n🌐 **Web:** HTML, CSS, JavaScript\n🧠 **Concepts:** OOP, Data Structures, AI Basics\n🤖 **AI:** Generative AI, Prompt Engineering\n🛠️ **Tools:** Git, VS Code, AWS, Jenkins\n💻 **Development:** Flask, Python Applications`,
+        skills: `Abrar's technical skills include:\n\n🐍 **Languages:** Python, Java, JavaScript (Basics)\n🌐 **Web:** HTML, CSS, JavaScript\n🧠 **Concepts:** OOP, Data Structures, AI Basics\n🤖 **AI:** Generative AI, Prompt Engineering\n🛠️ **Tools:** Git, VS Code, AWS, Jenkins\n💻 **Development:** Flask, Python Applications`,
 
-  projects: `Abrar has worked on several projects:\n\n🤖 **IGRIS AI Assistant** — Voice-enabled personal AI assistant with automation and intelligent interactions.\n\n🌸 **Pollen Grain Classification System** — Deep learning project for identifying pollen species from microscopic images.\n\n🛣️ **Automatic Road Extraction System** — SIH project for detecting and generating alerts for new roads using satellite imagery.`,
+        projects: `Abrar has worked on several projects:\n\n🤖 **IGRIS AI Assistant** — Voice-enabled personal AI assistant with automation and intelligent interactions.\n\n🌸 **Pollen Grain Classification System** — Deep learning project for identifying pollen species from microscopic images.\n\n🛣️ **Automatic Road Extraction System** — SIH project for detecting and generating alerts for new roads using satellite imagery.`,
 
-  contact: `Here's how to reach Abrar:\n\n📧 **Email:** abrar313k@gmail.com\n💻 **GitHub:** github.com/yourusername\n🔗 **LinkedIn:** linkedin.com/in/yourprofile\n📍 **Location:** India\n\nHe is currently open to opportunities in AI, Software Development, and Generative AI.`,
+        internships: `Abrar has completed 4 internships:\n\n🤖 **Generative AI Intern** — Blackbucks (May 2025 – Jul 2025)\nLearned prompt engineering concepts and explored Generative AI technologies and tools.\n\n🧠 **AI & ML Intern** — SmartBridge & APSCHE (May 2025 – Jul 2025)\nGained practical knowledge in AI and ML. Worked on machine learning concepts.\n\n☕ **Java Programming Intern** — MicroIT (May 2025 – Jun 2025)\nFocused on core Java concepts and developed Java applications.\n\n🐍 **Python Full Stack Intern** — ExcelR (Jun 2024 – Jul 2024)\nCovered frontend and backend technologies. Learned Python full-stack fundamentals.`,
 
-  default: `I can tell you about Abrar's **skills**, **projects**, **education**, **IGRIS AI assistant**, or **contact information**. What would you like to know?`
-};
+        education: `Abrar's educational background:\n\n🎓 **B.Tech, Computer Science Engineering** — 2021–2025\nChebrolu Engineering College, Guntur (JNTU-K)\nCGPA: **8.19 / 10**\n\n📘 **Intermediate (MPC)** — 2022\nN.K.R. Jr. College, Repalle (BIE, Andhra Pradesh)\nScore: **93%**\n\n📗 **10th Class** — 2020\nZ.P. High School, Pallikona (BSE, Andhra Pradesh)\nScore: **91%**`,
 
-    function classifyMessage(msg) {
-      const m = msg.toLowerCase();
-      if (m.includes('about') || m.includes('who') || m.includes('tell me') || m.includes('introduce')) return 'about';
-      if (m.includes('skill') || m.includes('tech') || m.includes('stack') || m.includes('language') || m.includes('tool')) return 'skills';
-      if (m.includes('project') || m.includes('work') || m.includes('built') || m.includes('IGRIS') || m.includes('wildfire') || m.includes('pollen')) return 'projects';
-      if (m.includes('contact') || m.includes('email') || m.includes('reach') || m.includes('hire') || m.includes('connect') || m.includes('linkedin') || m.includes('github')) return 'contact';
-      return 'default';
-    }
+        certifications: `Abrar's certifications:\n\n🏆 **Getting Started with AI** — IBM\n\n🔐 **Cryptography & Network Security** — NPTEL\n\n💻 **Python Full Stack, DevOps, Java & DSA** — Various Platforms\n\n🏅 **TCS ION NQT (IT)** — Feb 2026\nOverall Score: 51.60%`,
+
+        contact: `Here's how to reach Abrar:\n\n📧 **Email:** abrar313k@gmail.com\n💻 **GitHub:** github.com/abrar-khan123\n🔗 **LinkedIn:** linkedin.com/in/abrar-khan-7b536b315\n📍 **Location:** India\n\nHe is currently open to opportunities in AI, Software Development, and Generative AI.`,
+
+        default: `I can tell you about Abrar's **skills**, **projects**, **internships**, **education**, **certifications**, or **contact information**. What would you like to know?`
+      };
+
+      function classifyMessage(msg) {
+  const m = msg.toLowerCase();
+  if (m.includes('about') || m.includes('who') || m.includes('tell me') || m.includes('introduce')) return 'about';
+  if (m.includes('skill') || m.includes('tech') || m.includes('stack') || m.includes('language') || m.includes('tool')) return 'skills';
+  if (m.includes('project') || m.includes('work') || m.includes('built') || m.includes('igris') || m.includes('pollen') || m.includes('road')) return 'projects';
+  if (m.includes('intern') || m.includes('blackbucks') || m.includes('smartbridge') || m.includes('microit') || m.includes('excelr') || m.includes('experience')) return 'internships';
+  if (m.includes('education') || m.includes('college') || m.includes('school') || m.includes('btech') || m.includes('degree') || m.includes('cgpa') || m.includes('study') || m.includes('studied')) return 'education';
+  if (m.includes('cert') || m.includes('ibm') || m.includes('nptel') || m.includes('tcs') || m.includes('nqt') || m.includes('qualification')) return 'certifications';
+  if (m.includes('contact') || m.includes('email') || m.includes('reach') || m.includes('hire') || m.includes('connect') || m.includes('linkedin') || m.includes('github')) return 'contact';
+  return 'default';
+}
 
     function formatMessage(text) {
       return text
@@ -1044,16 +1095,45 @@
     });
 
     function sendQuickAction(type) {
-      const labels = { about: 'Tell me about Abrar', skills: 'What are his skills?', projects: 'Show me his projects', contact: 'How can I contact him?' };
-      handleChat(labels[type]);
+      const labels = {
+      about: 'Tell me about Abrar',
+      skills: 'What are his skills?',
+      projects: 'Show me his projects',
+      internships: 'What internships did Abrar do?',
+      education: 'Tell me about his education',
+      certifications: 'What certifications does Abrar have?',
+      contact: 'How can I contact him?'
+      };
+      addMessage(labels[type], true);
+      showTypingIndicator();
+      setTimeout(() => {
+        removeTypingIndicator();
+        addMessage(responses[type]);
+      }, 800 + Math.random() * 800);
     }
 
     // Contact Form
     document.getElementById('contact-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      showToast('✉️ Message sent successfully! I\'ll get back to you soon.');
-      e.target.reset();
-    });
+    e.preventDefault();
+
+    const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `Sending...`;
+    emailjs.sendForm('service_hdv8gyf', 'template_q8gpn52', form)
+      .then(() => {
+        showToast('✉️ Message sent! I\'ll get back to you soon.');
+        form.reset();
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<span class="iconify" data-icon="mdi:send" data-width="18"></span> Send Message`;
+      })
+      .catch((error) => {
+        console.error('EmailJS error:', error);
+        showToast('❌ Failed to send. Please email me directly at abrar313k@gmail.com');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<span class="iconify" data-icon="mdi:send" data-width="18"></span> Send Message`;
+      });
+  });
   </script>
 </body>
 </html>
