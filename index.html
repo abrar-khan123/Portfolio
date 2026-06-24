@@ -29,16 +29,42 @@
     }
   </script>
   <style>
+    /* Existing roots & core styles */
     :root { --neon-cyan: #00f0ff; --neon-purple: #a855f7; --neon-green: #00ff88; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+    body { background: #020205; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
     ::selection { background: rgba(0,240,255,0.2); color: #fff; }
-    ::-webkit-scrollbar { width: 6px; }
+    ::selection { background: rgba(0,240,255,0.2); color: #fff; }
+    ::webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #000; }
     ::-webkit-scrollbar-thumb { background: rgba(0,240,255,0.3); border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(0,240,255,0.5); }
 
-    #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    /* Updated Canvas for the Moving Waves */
+    #bg-canvas { 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      z-index: 0; 
+      pointer-events: none;
+      opacity: 1;           /* was 0.75 — keep full */
+      filter: blur(3px);    /* change from blur(1px) to blur(3px) for smoky softness */
+  }
+
+    /* Ambient soft backing glow */
+    .bg-glow {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80vw;
+      height: 80vh;
+      background: radial-gradient(circle, rgba(168,85,247,0.04) 0%, rgba(0,240,255,0.02) 50%, transparent 100%);
+      z-index: 0;
+      pointer-events: none;
+    }
 
     .glass { background: rgba(255,255,255,0.025); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.06); }
     .glass-strong { background: rgba(255,255,255,0.04); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border: 1px solid rgba(255,255,255,0.08); }
@@ -118,6 +144,9 @@
   <!-- Three.js Canvas -->
   <canvas id="bg-canvas"></canvas>
 
+  <div class="glow-orb w-[800px] h-[800px] bg-cyan-500/[0.03] top-[-200px] left-[-200px] fixed z-[1]"></div>
+  <div class="glow-orb w-[700px] h-[700px] bg-purple-500/[0.03] bottom-[-150px] right-[-150px] fixed z-[1]"></div>
+
   <!-- Decorative Glow Orbs -->
   <div class="glow-orb w-[600px] h-[600px] bg-cyan-500/5 top-[-200px] left-[-200px] fixed z-[1]"></div>
   <div class="glow-orb w-[500px] h-[500px] bg-purple-500/5 bottom-[-150px] right-[-150px] fixed z-[1]"></div>
@@ -143,7 +172,7 @@
         <a href="https://linkedin.com/" target="_blank" class="btn-outline w-10 h-10 rounded-xl glass flex items-center justify-center text-zinc-400 hover:text-neon-cyan">
           <span class="iconify" data-icon="mdi:linkedin" data-width="20"></span>
         </a>
-        <button onclick="showToast('📄 Resume download started!')" class="btn-primary px-5 py-2.5 rounded-xl glass text-sm font-medium text-white flex items-center gap-2">
+        <button onclick="downloadResume()" class="btn-primary px-5 py-2.5 rounded-xl glass text-sm font-medium text-white flex items-center gap-2">
           <span class="iconify" data-icon="mdi:download" data-width="16"></span>
           Resume
         </button>
@@ -201,7 +230,7 @@
             View Projects
             <span class="iconify" data-icon="mdi:arrow-down" data-width="18"></span>
           </a>
-          <button onclick="showToast('📄 Resume download started!')" class="btn-outline px-8 py-3.5 rounded-2xl glass text-sm font-semibold text-zinc-300 flex items-center gap-2">
+          <button onclick="downloadResume()" class="btn-outline px-8 py-3.5 rounded-2xl glass text-sm font-semibold text-zinc-300 flex items-center gap-2">
             <span class="iconify" data-icon="mdi:download-outline" data-width="18"></span>
             Download Resume
           </button>
@@ -775,180 +804,93 @@
   <!-- Toast Container -->
   <div id="toast-container" class="fixed bottom-6 right-6 z-[100] space-y-3"></div>
 
-  <!-- ===== THREE.JS MODULE ===== -->
-  <script type="module">
-    import * as THREE from 'three';
+  <!-- ===== SMOKY WAVE BACKGROUND ===== -->
+<script>
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
 
-    const canvas = document.getElementById('bg-canvas');
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
 
-    // Particles
-    const particleCount = 1500;
-    const positions = new Float32Array(particleCount * 3);
-    const colors = new Float32Array(particleCount * 3);
-    const sizes = new Float32Array(particleCount);
-    const speeds = new Float32Array(particleCount);
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
 
-    for (let i = 0; i < particleCount; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 40;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 40;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 40;
+  const waves = [
+    { yRatio: 0.38, amplitude: 120, length: 0.0018, speed: 0.006, opacity: 0.20 },
+    { yRatio: 0.50, amplitude: 150, length: 0.0012, speed: 0.004, opacity: 0.14 },
+    { yRatio: 0.60, amplitude: 100, length: 0.0022, speed: 0.008, opacity: 0.16 },
+    { yRatio: 0.44, amplitude: 130, length: 0.0009, speed: 0.003, opacity: 0.11 },
+    { yRatio: 0.55, amplitude: 90,  length: 0.0028, speed: 0.010, opacity: 0.10 },
+  ];
 
-      const colorChoice = Math.random();
-      if (colorChoice < 0.6) {
-        colors[i * 3] = 0; colors[i * 3 + 1] = 0.94; colors[i * 3 + 2] = 1;
-      } else if (colorChoice < 0.85) {
-        colors[i * 3] = 0.66; colors[i * 3 + 1] = 0.33; colors[i * 3 + 2] = 0.97;
-      } else {
-        colors[i * 3] = 0; colors[i * 3 + 1] = 1; colors[i * 3 + 2] = 0.53;
+  let offset = 0;
+
+  function getY(wave, x) {
+    const base = height * wave.yRatio;
+    const main = Math.sin(x * wave.length + offset * wave.speed) * wave.amplitude;
+    const sub  = Math.cos(x * wave.length * 0.55 - offset * wave.speed * 0.7) * (wave.amplitude * 0.45);
+    return base + main + sub;
+  }
+
+  function drawSmokyWave(wave) {
+    // Layer 1: wide feathered glow (smoke body)
+    for (let blur = 0; blur < 5; blur++) {
+      ctx.beginPath();
+      for (let x = 0; x <= width; x++) {
+        const y = getY(wave, x);
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
       }
-
-      sizes[i] = Math.random() * 2 + 0.5;
-      speeds[i] = Math.random() * 0.5 + 0.2;
+      ctx.strokeStyle = `rgba(200,200,220,${wave.opacity * 0.035})`;
+      ctx.lineWidth = 80 + blur * 40;
+      ctx.lineJoin = 'round';
+      ctx.stroke();
     }
 
-    const particleGeometry = new THREE.BufferGeometry();
-    particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    particleGeometry.setAttribute('aColor', new THREE.BufferAttribute(colors, 3));
-    particleGeometry.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
-
-    const particleMaterial = new THREE.ShaderMaterial({
-      vertexShader: `
-        attribute vec3 aColor;
-        attribute float aSize;
-        varying vec3 vColor;
-        void main() {
-          vColor = aColor;
-          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = aSize * (200.0 / -mvPosition.z);
-          gl_Position = projectionMatrix * mvPosition;
-        }
-      `,
-      fragmentShader: `
-        varying vec3 vColor;
-        void main() {
-          float d = length(gl_PointCoord - vec2(0.5));
-          if (d > 0.5) discard;
-          float alpha = smoothstep(0.5, 0.1, d) * 0.5;
-          gl_FragColor = vec4(vColor, alpha);
-        }
-      `,
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending
-    });
-
-    const particles = new THREE.Points(particleGeometry, particleMaterial);
-    scene.add(particles);
-
-    // Hologram Orb Group
-    const orbGroup = new THREE.Group();
-
-    const orbMat1 = new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true, transparent: true, opacity: 0.18 });
-    const orbMat2 = new THREE.MeshBasicMaterial({ color: 0xa855f7, wireframe: true, transparent: true, opacity: 0.12 });
-    const orbMat3 = new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true, transparent: true, opacity: 0.06 });
-
-    const mesh1 = new THREE.Mesh(new THREE.IcosahedronGeometry(2.2, 2), orbMat1);
-    const mesh2 = new THREE.Mesh(new THREE.IcosahedronGeometry(1.8, 1), orbMat2);
-    const mesh3 = new THREE.Mesh(new THREE.SphereGeometry(1.4, 20, 20), orbMat3);
-
-    orbGroup.add(mesh1, mesh2, mesh3);
-    orbGroup.position.set(1.5, 0, 0);
-    scene.add(orbGroup);
-
-    // Inner glow sphere
-    const glowGeo = new THREE.SphereGeometry(1.0, 32, 32);
-    const glowMat = new THREE.ShaderMaterial({
-      vertexShader: `
-        varying vec3 vNormal;
-        void main() {
-          vNormal = normalize(normalMatrix * normal);
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        varying vec3 vNormal;
-        void main() {
-          float intensity = pow(0.65 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.5);
-          gl_FragColor = vec4(0.0, 0.94, 1.0, intensity * 0.4);
-        }
-      `,
-      transparent: true,
-      side: THREE.FrontSide,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending
-    });
-    const glowMesh = new THREE.Mesh(glowGeo, glowMat);
-    orbGroup.add(glowMesh);
-
-    camera.position.z = 6;
-
-    // Mouse tracking
-    let mouseX = 0, mouseY = 0, targetMouseX = 0, targetMouseY = 0;
-    document.addEventListener('mousemove', (e) => {
-      targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-      targetMouseY = -(e.clientY / window.innerHeight - 0.5) * 2;
-    });
-
-    let scrollY = 0;
-    window.addEventListener('scroll', () => { scrollY = window.scrollY; });
-
-    // Animation
-    const clock = new THREE.Clock();
-    function animate() {
-      requestAnimationFrame(animate);
-      const t = clock.getElapsedTime();
-
-      mouseX += (targetMouseX - mouseX) * 0.04;
-      mouseY += (targetMouseY - mouseY) * 0.04;
-
-      mesh1.rotation.x = t * 0.15 + mouseY * 0.3;
-      mesh1.rotation.y = t * 0.2 + mouseX * 0.3;
-      mesh2.rotation.x = -t * 0.12 + mouseY * 0.2;
-      mesh2.rotation.y = -t * 0.18 + mouseX * 0.2;
-      mesh3.rotation.x = t * 0.08;
-      mesh3.rotation.z = t * 0.12;
-
-      // Pulse
-      const pulse = 1 + Math.sin(t * 1.5) * 0.05;
-      orbGroup.scale.setScalar(pulse);
-
-      // Scroll fade
-      const heroH = window.innerHeight;
-      const sp = Math.min(scrollY / heroH, 1);
-      orbGroup.position.y = -sp * 4;
-      orbGroup.children.forEach(c => {
-        c.material.opacity = c.material.opacity * (1 - sp * 0.8);
-      });
-      // Reset opacity for next frame
-      orbMat1.opacity = 0.18 * (1 - sp);
-      orbMat2.opacity = 0.12 * (1 - sp);
-      orbMat3.opacity = 0.06 * (1 - sp);
-
-      // Particle drift
-      const posArr = particleGeometry.attributes.position.array;
-      for (let i = 0; i < particleCount; i++) {
-        posArr[i * 3 + 1] += speeds[i] * 0.003;
-        if (posArr[i * 3 + 1] > 20) posArr[i * 3 + 1] = -20;
-      }
-      particleGeometry.attributes.position.needsUpdate = true;
-      particles.rotation.y = t * 0.02;
-
-      renderer.render(scene, camera);
+    // Layer 2: medium bright core
+    ctx.beginPath();
+    for (let x = 0; x <= width; x++) {
+      const y = getY(wave, x);
+      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
-    animate();
+    ctx.strokeStyle = `rgba(230,230,255,${wave.opacity * 0.5})`;
+    ctx.lineWidth = 8;
+    ctx.stroke();
 
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-  </script>
+    // Layer 3: sharp bright center line
+    ctx.beginPath();
+    for (let x = 0; x <= width; x++) {
+      const y = getY(wave, x);
+      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = `rgba(255,255,255,${wave.opacity})`;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+  function downloadResume() {
+  const link = document.createElement('a');
+  link.href = './Abrar_Khan_Resume.pdf';
+  link.download = 'Abrar_Khan_Resume.pdf';
+  link.click();
+  showToast('📄 Resume download started!');
+}
 
+  function animate() {
+    // IMPORTANT: clearRect keeps canvas transparent (no black fill)
+    ctx.clearRect(0, 0, width, height);
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.globalAlpha = 1;
+
+    waves.forEach(drawSmokyWave);
+
+    ctx.globalCompositeOperation = 'source-over';
+    offset += 0.8;
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
   <!-- ===== MAIN SCRIPTS ===== -->
   <script>
     // Typing Animation
