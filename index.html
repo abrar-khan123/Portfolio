@@ -39,7 +39,11 @@
       theme: {
         extend: {
           colors: {
-            neon: { cyan: '#00f0ff', purple: '#a855f7', green: '#00ff88', pink: '#f472b6' },
+            neon: { cyan: '#dcae5c', purple: '#c17a3d', green: '#a68a5b', pink: '#8f4a3f' },
+            cyan: { 400: '#e6c17e', 500: '#dcae5c' },
+            purple: { 400: '#d0975f', 500: '#c17a3d' },
+            green: { 400: '#bfa877', 500: '#a68a5b' },
+            pink: { 400: '#c17f74', 500: '#8f4a3f' },
             dark: { 50: '#18181b', 100: '#111113', 200: '#0c0c0e', 300: '#08080a', 400: '#050507', 500: '#000000' }
           },
           fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
@@ -48,14 +52,14 @@
     }
   </script>
   <style>
-    :root { --neon-cyan: #00f0ff; --neon-purple: #a855f7; --neon-green: #00ff88; }
+    :root { --neon-cyan: #dcae5c; --neon-purple: #c17a3d; --neon-green: #a68a5b; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #020205; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-    ::selection { background: rgba(0,240,255,0.2); color: #fff; }
+    ::selection { background: rgba(220,174,92,0.2); color: #fff; }
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #000; }
-    ::-webkit-scrollbar-thumb { background: rgba(0,240,255,0.3); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(0,240,255,0.5); }
+    ::-webkit-scrollbar-thumb { background: rgba(220,174,92,0.3); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(220,174,92,0.5); }
 
     #bg-canvas {
       position: fixed;
@@ -72,7 +76,7 @@
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       width: 80vw; height: 80vh;
-      background: radial-gradient(circle, rgba(168,85,247,0.04) 0%, rgba(0,240,255,0.02) 50%, transparent 100%);
+      background: radial-gradient(circle, rgba(193,122,61,0.04) 0%, rgba(220,174,92,0.02) 50%, transparent 100%);
       z-index: 0;
       pointer-events: none;
     }
@@ -82,7 +86,7 @@
 
     .text-gradient { background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .text-gradient-alt { background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .bg-gradient-neon { background: linear-gradient(135deg, rgba(0,240,255,0.15), rgba(168,85,247,0.15)); }
+    .bg-gradient-neon { background: linear-gradient(135deg, rgba(220,174,92,0.15), rgba(193,122,61,0.15)); }
 
     #navbar { transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
     #navbar.scrolled { background: rgba(0,0,0,0.85); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -98,15 +102,15 @@
     @keyframes blink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
 
     .project-card { transition: all 0.5s cubic-bezier(0.16,1,0.3,1); }
-    .project-card:hover { border-color: rgba(0,240,255,0.35); box-shadow: 0 0 50px rgba(0,240,255,0.07), 0 25px 70px rgba(0,0,0,0.5); transform: translateY(-8px); }
+    .project-card:hover { border-color: rgba(220,174,92,0.35); box-shadow: 0 0 50px rgba(220,174,92,0.07), 0 25px 70px rgba(0,0,0,0.5); transform: translateY(-8px); }
     .project-card:hover .project-img { transform: scale(1.05); }
     .project-img { transition: transform 0.7s cubic-bezier(0.16,1,0.3,1); }
 
     .skill-tag { transition: all 0.3s ease; }
-    .skill-tag:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,240,255,0.15); }
+    .skill-tag:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(220,174,92,0.15); }
 
     .timeline-line { background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-purple), transparent); }
-    .timeline-dot { box-shadow: 0 0 12px rgba(0,240,255,0.4); }
+    .timeline-dot { box-shadow: 0 0 12px rgba(220,174,92,0.4); }
 
     .chat-message { animation: chatIn 0.4s cubic-bezier(0.16,1,0.3,1); }
     @keyframes chatIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
@@ -122,15 +126,15 @@
     .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
 
     .btn-primary { position: relative; overflow: hidden; transition: all 0.4s ease; }
-    .btn-primary::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(0,240,255,0.2),rgba(168,85,247,0.2)); opacity:0; transition:opacity 0.4s ease; }
+    .btn-primary::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(220,174,92,0.2),rgba(193,122,61,0.2)); opacity:0; transition:opacity 0.4s ease; }
     .btn-primary:hover::before { opacity:1; }
-    .btn-primary:hover { box-shadow: 0 0 30px rgba(0,240,255,0.2), 0 0 60px rgba(0,240,255,0.05); transform: translateY(-2px); }
+    .btn-primary:hover { box-shadow: 0 0 30px rgba(220,174,92,0.2), 0 0 60px rgba(220,174,92,0.05); transform: translateY(-2px); }
 
     .btn-outline { transition: all 0.4s ease; }
-    .btn-outline:hover { border-color: rgba(0,240,255,0.5); background: rgba(0,240,255,0.05); transform: translateY(-2px); }
+    .btn-outline:hover { border-color: rgba(220,174,92,0.5); background: rgba(220,174,92,0.05); transform: translateY(-2px); }
 
     .cert-card { transition: all 0.4s ease; }
-    .cert-card:hover { border-color: rgba(168,85,247,0.4); transform: translateY(-4px); box-shadow: 0 0 30px rgba(168,85,247,0.08); }
+    .cert-card:hover { border-color: rgba(193,122,61,0.4); transform: translateY(-4px); box-shadow: 0 0 30px rgba(193,122,61,0.08); }
 
     .nav-link { position: relative; transition: color 0.3s ease; }
     .nav-link::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:var(--neon-cyan); transition:width 0.3s ease; border-radius:1px; }
@@ -141,7 +145,7 @@
     .mobile-menu.open { transform: translateX(0); }
 
     .input-field { transition: all 0.3s ease; }
-    .input-field:focus { border-color: rgba(0,240,255,0.4); box-shadow: 0 0 20px rgba(0,240,255,0.08); }
+    .input-field:focus { border-color: rgba(220,174,92,0.4); box-shadow: 0 0 20px rgba(220,174,92,0.08); }
 
     @media (max-width: 768px) {
       .hero-name { font-size: 2.5rem !important; line-height: 1 !important; }
@@ -773,7 +777,7 @@
           <div class="px-6 pb-6">
             <form id="chat-form" class="flex gap-2">
               <input type="text" id="chat-input" placeholder="Type your message..." class="input-field flex-1 px-4 py-3 rounded-xl bg-white/5 border border-white/8 text-sm text-white placeholder-zinc-600 outline-none" />
-              <button type="submit" class="w-11 h-11 rounded-xl bg-gradient-to-r from-neon-cyan/20 to-neon-purple/20 border border-neon-cyan/30 flex items-center justify-center text-neon-cyan hover:shadow-[0_0_20px_rgba(0,240,255,0.2)] transition-all shrink-0">
+              <button type="submit" class="w-11 h-11 rounded-xl bg-gradient-to-r from-neon-cyan/20 to-neon-purple/20 border border-neon-cyan/30 flex items-center justify-center text-neon-cyan hover:shadow-[0_0_20px_rgba(220,174,92,0.2)] transition-all shrink-0">
                 <span class="iconify" data-icon="mdi:send" data-width="18"></span>
               </button>
             </form>
@@ -849,16 +853,16 @@
             <form id="contact-form" class="glass rounded-2xl p-8 space-y-5">
               <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off" />
               <div>
-                <label class="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2 block">Name</label>
-                <input type="text" name="from_name" required placeholder="Your name" class="input-field w-full px-4 py-3 rounded-xl bg-white/5 border border-white/8 text-sm text-white placeholder-zinc-600 outline-none" />
+                <label for="contact-name" class="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2 block">Name</label>
+                <input type="text" id="contact-name" name="from_name" required placeholder="Your name" class="input-field w-full px-4 py-3 rounded-xl bg-white/5 border border-white/8 text-sm text-white placeholder-zinc-600 outline-none" />
               </div>
               <div>
-                <label class="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2 block">Email</label>
-                <input type="email" name="from_email" required placeholder="your@email.com" class="input-field w-full px-4 py-3 rounded-xl bg-white/5 border border-white/8 text-sm text-white placeholder-zinc-600 outline-none" />
+                <label for="contact-email" class="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2 block">Email</label>
+                <input type="email" id="contact-email" name="from_email" required placeholder="your@email.com" class="input-field w-full px-4 py-3 rounded-xl bg-white/5 border border-white/8 text-sm text-white placeholder-zinc-600 outline-none" />
               </div>
               <div>
-                <label class="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2 block">Message</label>
-                <textarea name="message" required rows="4" placeholder="Tell me about your project or opportunity..." class="input-field w-full px-4 py-3 rounded-xl bg-white/5 border border-white/8 text-sm text-white placeholder-zinc-600 outline-none resize-none"></textarea>
+                <label for="contact-message" class="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2 block">Message</label>
+                <textarea id="contact-message" name="message" required rows="4" placeholder="Tell me about your project or opportunity..." class="input-field w-full px-4 py-3 rounded-xl bg-white/5 border border-white/8 text-sm text-white placeholder-zinc-600 outline-none resize-none"></textarea>
               </div>
               <button type="submit" class="btn-primary w-full py-3.5 rounded-xl bg-gradient-to-r from-neon-cyan/20 to-neon-purple/20 border border-neon-cyan/30 text-sm font-semibold text-white flex items-center justify-center gap-2">
                 <span class="iconify" data-icon="mdi:send" data-width="18"></span>
