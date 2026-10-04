@@ -9,13 +9,13 @@
   <!-- SEO -->
   <meta name="description" content="Pathan Abrar Khan — Computer Science Engineering graduate specializing in AI/ML, Generative AI, and Python full-stack development. Building IGRIS, a voice-controlled personal AI assistant. Open to AI/ML and Software Engineering roles." />
   <meta name="keywords" content="Abrar Khan, AI Developer, Machine Learning Engineer, Python Developer, Generative AI, IGRIS AI Assistant, CSE Graduate, Guntur" />
-  <meta name="author" content="Pathan Abrar Khan | Portfolio" />
+  <meta name="author" content="Pathan Abrar Khan" />
   <link rel="canonical" href="https://abrar-khan123.github.io/Portfolio/" />
 
   <!-- Open Graph (LinkedIn, WhatsApp, Facebook previews) -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://abrar-khan123.github.io/Portfolio/" />
-  <meta property="og:title" content="Pathan Abrar Khan | Portfolio" />
+  <meta property="og:title" content="Pathan Abrar Khan" />
   <meta property="og:description" content="B.Tech CSE graduate (CGPA 8.19) building AI-driven applications. Creator of IGRIS, a voice-controlled personal AI assistant. Open to AI/ML & Software Engineering roles." />
   <meta property="og:image" content="https://abrar-khan123.github.io/Portfolio/images/og-preview.jpg" />
 
@@ -26,11 +26,13 @@
   <meta name="twitter:image" content="https://abrar-khan123.github.io/Portfolio/images/og-preview.jpg" />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="192x192" href="https://abrar-khan123.github.io/Portfolio/images/favicon.png" />
-  <link rel="shortcut icon" href="https://abrar-khan123.github.io/Portfolio/images/favicon.png" />
-  <link rel="apple-touch-icon" href="https://abrar-khan123.github.io/Portfolio/images/favicon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="https://abrar-khan123.github.io/Portfolio/images/favicon.png?v=4" />
+  <link rel="shortcut icon" href="https://abrar-khan123.github.io/Portfolio/images/favicon.png?v=4" />
+  <link rel="apple-touch-icon" href="https://abrar-khan123.github.io/Portfolio/images/favicon.png?v=4" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
     emailjs.init('fs5wI4n69UFxh1A8c');
   </script>
@@ -1079,7 +1081,8 @@
       const div = document.createElement('div');
       div.className = 'chat-message flex gap-3' + (isUser ? ' justify-end' : '');
       if (isUser) {
-        div.innerHTML = `<div class="bg-gradient-to-r from-neon-cyan/20 to-neon-purple/20 border border-neon-cyan/20 rounded-2xl rounded-tr-md px-4 py-3 max-w-[85%]"><p class="text-sm text-zinc-200 leading-relaxed">${content}</p></div>`;
+        const safe = content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        div.innerHTML = `<div class="bg-gradient-to-r from-neon-cyan/20 to-neon-purple/20 border border-neon-cyan/20 rounded-2xl rounded-tr-md px-4 py-3 max-w-[85%]"><p class="text-sm text-zinc-200 leading-relaxed">${safe}</p></div>`;
       } else {
         div.innerHTML = `<div class="w-7 h-7 rounded-full bg-gradient-to-br from-neon-cyan/30 to-neon-purple/30 flex items-center justify-center shrink-0 mt-0.5"><span class="iconify text-neon-cyan" data-icon="mdi:robot-happy" data-width="14"></span></div><div class="glass rounded-2xl rounded-tl-md px-4 py-3 max-w-[85%]"><p class="text-sm text-zinc-300 leading-relaxed">${formatMessage(content)}</p></div>`;
       }
