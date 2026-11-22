@@ -33,9 +33,15 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
-  <script>
-    emailjs.init('fs5wI4n69UFxh1A8c');
-  </script>
+<!-- EmailJS Library -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<!-- EmailJS Initialization -->
+<script>
+  emailjs.init({
+    publicKey: "fs5wI4n69UFxh1A8c"
+  });
+</script>
   <script>
     tailwind.config = {
       theme: {
@@ -386,6 +392,7 @@
               <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">OOP</span>
               <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Data Structures</span>
               <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">AI Fundamentals</span>
+              <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">REST APIs</span>
             </div>
           </div>
 
@@ -399,6 +406,8 @@
             </div>
             <div class="flex flex-wrap gap-2">
               <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Generative AI</span>
+              <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">LLMs</span>
+              <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">RAG</span>
               <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">Prompt Engineering</span>
             </div>
           </div>
@@ -430,7 +439,9 @@
             <div class="flex flex-wrap gap-2">
               <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">Fast Learner</span>
               <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">Teamwork</span>
+              <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">Communication</span>
               <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">Time Management</span>
+              <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">Reliability</span>
               <span class="skill-tag px-3 py-1.5 rounded-lg text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">Work Ethic</span>
             </div>
           </div>
@@ -512,7 +523,7 @@
                 </div>
               </div>
               <div class="relative h-64 md:h-auto overflow-hidden order-1 md:order-2">
-                <img src="./images/fireimg.webp" alt="Wildfire Detection" class="project-img w-full h-full object-cover" />
+                <img src="./images/fire.jpg" alt="Wildfire Detection" class="project-img w-full h-full object-cover" />
                 <div class="absolute inset-0 bg-gradient-to-l from-transparent to-black/80 hidden md:block"></div>
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent md:hidden"></div>
               </div>
@@ -718,6 +729,16 @@
                 <div>
                   <h4 class="text-sm font-semibold text-white">TCS iON National Qualifier Test (NQT) — IT</h4>
                   <p class="text-xs text-zinc-500">Feb 2026 · Overall Score: 51.60%</p>
+                </div>
+              </div>
+
+              <div class="reveal cert-card glass rounded-xl p-4 flex items-start gap-4" style="transition-delay:300ms">
+                <div class="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <span class="iconify text-neon-cyan" data-icon="mdi:chat-processing" data-width="20"></span>
+                </div>
+                <div>
+                  <h4 class="text-sm font-semibold text-white">AI Tools & ChatGPT Workshop</h4>
+                  <p class="text-xs text-zinc-500">be10x</p>
                 </div>
               </div>
 
@@ -1044,7 +1065,7 @@
     const responses = {
       about: `I'm Pathan Abrar Khan — a Computer Science Engineering graduate (CGPA 8.19) from Chebrolu Engineering College, Guntur.\n\nI have hands-on experience across four internships in Generative AI, AI/ML, Java, and Python full-stack development. I'm passionate about building intelligent, AI-driven applications and currently seeking roles in software engineering or AI/ML.`,
 
-      skills: `Here are Abrar's technical skills:\n\n🐍 **Languages:** Python, Java\n🌐 **Web:** HTML, CSS, JavaScript (Fundamentals)\n🧠 **Concepts:** OOP, Data Structures, AI Fundamentals\n🤖 **AI:** Generative AI, Prompt Engineering\n🛠️ **Tools:** Git, VS Code, AWS, Jenkins\n💪 **Strengths:** Fast Learner, Teamwork, Time Management, Strong Work Ethic`,
+      skills: `Here are Abrar's technical skills:\n\n🐍 **Languages:** Python, Java\n🌐 **Web:** HTML, CSS, JavaScript (Fundamentals)\n🧠 **Concepts:** OOP, Data Structures, AI Fundamentals, REST APIs\n🤖 **AI:** Generative AI, LLMs, RAG, Prompt Engineering\n🛠️ **Tools:** Git, VS Code, AWS, Jenkins\n💪 **Strengths:** Fast Learner, Teamwork, Communication, Time Management, Reliability, Strong Work Ethic`,
 
       projects: `Abrar's projects:\n\n🤖 **IGRIS AI Assistant** — Python-based voice AI with NLP and speech recognition for task automation.\n\n🔥 **Forest Wildfire Detection** — CNN-based computer vision system detecting wildfires from satellite imagery.\n\n🌸 **Pollen Classification System** — Deep learning model for classifying pollen grains from microscopic images.\n\n🤝 **Community Service — Vemuru Village** — Led health and hygiene awareness programs for the local community.`,
 
@@ -1052,7 +1073,7 @@
 
       education: `Abrar's education:\n\n🎓 **B.Tech, CSE** — Chebrolu Engineering College, Guntur (JNTU-K)\n2022–2026 · CGPA: **8.19 / 10**\n\n📘 **Intermediate (MPC)** — N.K.R. Jr. College, Repalle (BIE, AP)\n2022 · Score: **93%**\n\n📗 **10th Class** — Z.P. High School, Pallikona (BSE, AP)\n2020 · Score: **91%**`,
 
-      certifications: `Abrar's certifications:\n\n🏆 **Getting Started with Artificial Intelligence** — IBM\n\n🔐 **Cryptography & Network Security** — NPTEL\n\n💻 **Python Full Stack, DevOps, Java & Data Structures** — Various Platforms\n\n🏅 **TCS iON National Qualifier Test (NQT) — IT** — Feb 2026\nOverall Score: 51.60%`,
+      certifications: `Abrar's certifications:\n\n🏆 **Getting Started with Artificial Intelligence** — IBM\n\n🔐 **Cryptography & Network Security** — NPTEL\n\n💻 **Python Full Stack, DevOps, Java & Data Structures** — Various Platforms\n\n🏅 **TCS iON National Qualifier Test (NQT) — IT** — Feb 2026\nOverall Score: 51.60%\n\n💬 **AI Tools & ChatGPT Workshop** — be10x`,
 
       contact: `How to reach Abrar:\n\n📧 **Email:** abrar313k@gmail.com\n📱 **Phone:** +91 8328503034\n💻 **GitHub:** github.com/abrar-khan123\n🔗 **LinkedIn:** linkedin.com/in/abrar-khan-7b536b315\n🌐 **Portfolio:** abrar-khan123.github.io/Portfolio\n📍 **Location:** India\n\nCurrently open to opportunities in AI, Software Development, and Generative AI.`,
 
@@ -1066,7 +1087,7 @@
       if (m.includes('project') || m.includes('work') || m.includes('built') || m.includes('igris') || m.includes('pollen') || m.includes('wildfire') || m.includes('fire') || m.includes('community')) return 'projects';
       if (m.includes('intern') || m.includes('blackbucks') || m.includes('smartbridge') || m.includes('microit') || m.includes('excelr') || m.includes('experience')) return 'internships';
       if (m.includes('education') || m.includes('college') || m.includes('school') || m.includes('btech') || m.includes('degree') || m.includes('cgpa') || m.includes('study') || m.includes('studied')) return 'education';
-      if (m.includes('cert') || m.includes('ibm') || m.includes('nptel') || m.includes('tcs') || m.includes('nqt') || m.includes('qualification')) return 'certifications';
+      if (m.includes('cert') || m.includes('ibm') || m.includes('nptel') || m.includes('tcs') || m.includes('nqt') || m.includes('be10x') || m.includes('workshop') || m.includes('qualification')) return 'certifications';
       if (m.includes('contact') || m.includes('email') || m.includes('reach') || m.includes('hire') || m.includes('connect') || m.includes('linkedin') || m.includes('github') || m.includes('phone') || m.includes('number')) return 'contact';
       return 'default';
     }
